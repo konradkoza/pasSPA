@@ -1,6 +1,6 @@
 import instance from "../api/fetcher";
 import { FC, useEffect, useState } from "react";
-import { EditClient } from "./edit/EditClient";
+import { EditForm } from "./edit/EditClientForm";
 
 
 
@@ -24,7 +24,8 @@ export const Clients: FC = () => {
             console.log(error);
         }
         );
-    }, []);
+
+    }, [clients]);
 
     //setActive function for client
     const setActive = (id: string, value: boolean) => {
@@ -35,9 +36,6 @@ export const Clients: FC = () => {
         }
         );
     }
-
-
-
 
     return (
         <>
@@ -61,7 +59,7 @@ export const Clients: FC = () => {
                                 <td>{client.username}</td>
                                 <td>{client.active ? "true" : "false"}</td>
                                 <td><button onClick={() => setActive(client.id, client.active ? false : true)}> {client.active ? "deactivate" : "activate"} </button> </td>
-                                <td><EditClient {...client} /></td>
+                                <td><EditForm {...client} /></td>
                             </tr>
                         ))}
                     </tbody>
