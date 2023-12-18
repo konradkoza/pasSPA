@@ -1,5 +1,6 @@
 import instance from "../api/fetcher";
 import { useEffect, useState } from "react";
+import { EditMovieForm } from "./edit/EditMovieForm";
 
 
 export interface Movie {
@@ -20,7 +21,7 @@ export const Movies = () => {
             console.log(error);
         }
         );
-    }, []);
+    }, [movies]);
 
     const handleDelete = (id: string) => {
         instance.delete(`/movies/${id}`).then((response) => {
@@ -49,6 +50,7 @@ export const Movies = () => {
                                 <td>{movie.cost}</td>
                                 <td>{movie.id}</td>
                                 <td><button onClick={() => handleDelete(movie.id)}>Delete</button></td>
+                                <td><EditMovieForm {...movie} /></td>
                             </tr>
                         ))}
 
