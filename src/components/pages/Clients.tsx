@@ -1,7 +1,7 @@
 import instance from "../api/fetcher";
 import { FC, useEffect, useState } from "react";
 import { EditForm } from "./edit/EditClientForm";
-
+import { AddClientForm } from "./edit/AddClientForm";
 
 
 export interface Client {
@@ -16,8 +16,8 @@ export interface Client {
 
 export const Clients: FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
-
     useEffect(() => {
+
         instance.get("/clients").then((response) => {
             setClients(response.data);
         }, (error) => {
@@ -25,7 +25,7 @@ export const Clients: FC = () => {
         }
         );
 
-    }, [clients]);
+    }, []);
 
     //setActive function for client
     const setActive = (id: string, value: boolean) => {
@@ -64,6 +64,10 @@ export const Clients: FC = () => {
                         ))}
                     </tbody>
                 </table>
+
+            </div>
+            <div className="">
+                <AddClientForm />
             </div>
 
         </>

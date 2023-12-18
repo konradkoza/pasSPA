@@ -1,7 +1,7 @@
 import instance from "../api/fetcher";
 import { useEffect, useState } from "react";
 import { EditMovieForm } from "./edit/EditMovieForm";
-
+import { AddMovieForm } from "./edit/AddMovieForm";
 
 export interface Movie {
     id: string;
@@ -21,12 +21,13 @@ export const Movies = () => {
             console.log(error);
         }
         );
-    }, [movies]);
+    }, []);
 
     const handleDelete = (id: string) => {
         instance.delete(`/movies/${id}`).then((response) => {
             console.log(response);
         }, (error) => {
+            alert(error.response.data.message)
             console.log(error);
         }
         );
@@ -57,6 +58,10 @@ export const Movies = () => {
                     </tbody>
 
                 </table>
+                <div className="flex justify-center">
+                    <AddMovieForm />
+                </div>
+
             </div>
         </>
     )

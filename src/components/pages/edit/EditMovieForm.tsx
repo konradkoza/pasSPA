@@ -41,7 +41,7 @@ export const EditMovieForm: FC<Movie> = ({ id, title, cost }) => {
 
     return (
         <>
-            <EditModal isOpen={isOpen} setIsOpen={setIsOpen}>
+            <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Edit'>
                 <h4 className=" text-center">Edit movie form</h4>
                 <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
 
@@ -54,7 +54,7 @@ export const EditMovieForm: FC<Movie> = ({ id, title, cost }) => {
                     <label>Cost</label>
                     <input {...register("cost")} type="text" defaultValue={cost} />
 
-                    <button type="submit" className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
+                    <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
                 </form>
             </EditModal>
 

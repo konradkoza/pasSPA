@@ -52,7 +52,7 @@ export const EditForm: FC<Client> = ({ id, firstName, lastName, username, active
     return (
 
         <>
-            <EditModal isOpen={isOpen} setIsOpen={setIsOpen}>
+            <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Edit'>
                 <h4 className=" text-center">Edit client form</h4>
                 <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
 
