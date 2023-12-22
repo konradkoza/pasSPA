@@ -50,7 +50,7 @@ export const Movies = () => {
                                 <td>{movie.title}</td>
                                 <td>{movie.cost}</td>
                                 <td>{movie.id}</td>
-                                <td><button onClick={() => handleDelete(movie.id)}>Delete</button></td>
+                                <td><button onClick={() => handleDelete(movie.id)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32">Delete</button></td>
                                 <td><EditMovieForm {...movie} /></td>
                             </tr>
                         ))}

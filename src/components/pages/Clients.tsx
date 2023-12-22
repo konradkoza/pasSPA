@@ -58,7 +58,7 @@ export const Clients: FC = () => {
                                 <td>{client.id}</td>
                                 <td>{client.username}</td>
                                 <td>{client.active ? "true" : "false"}</td>
-                                <td><button onClick={() => setActive(client.id, client.active ? false : true)}> {client.active ? "deactivate" : "activate"} </button> </td>
+                                <td><button onClick={() => setActive(client.id, client.active ? false : true)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32"> {client.active ? "deactivate" : "activate"} </button> </td>
                                 <td><EditForm {...client} /></td>
                             </tr>
                         ))}
