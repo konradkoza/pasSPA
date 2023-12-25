@@ -1,14 +1,12 @@
-import { FC, useState } from 'react';
-import { Movie } from '../Movies';
+import { FC, useState, useEffect } from 'react';
+import { Movie } from '../movie/Movies';
 import instance from '../../api/fetcher';
-import { Client } from '../Clients';
-import { EditModal } from './FormModal';
-import { useNavigate } from 'react-router-dom';
+import { Client } from '../client/Clients';
+import { EditModal } from '../FormModal';
 import { useForm } from 'react-hook-form';
 
 interface Props {
-    clients: Client[];
-    movies: Movie[];
+    fetchRents: () => void;
 }
 
 interface RentRequest {
@@ -19,9 +17,39 @@ interface RentRequest {
 }
 
 
-export const AddRentForm: FC<Props> = ({ clients, movies }) => {
+export const AddRentForm: FC<Props> = ({ fetchRents }) => {
     let [isOpen, setIsOpen] = useState(false)
-    let navigation = useNavigate();
+    const [clients, setClients] = useState<Client[]>([]);
+    const [movies, setMovie] = useState<Movie[]>([]);
+
+    useEffect(() => {
+        fetchMovies();
+    }, []);
+
+    useEffect(() => {
+
+        fetchClients();
+
+    }, []);
+
+    const fetchMovies = () => {
+        instance.get("/movies").then((response) => {
+            setMovie(response.data);
+        }, (error) => {
+            console.log(error);
+        }
+        );
+    }
+
+    const fetchClients = () => {
+        instance.get("/clients").then((response) => {
+            setClients(response.data.filter((client: Client) => client.active));
+        }, (error) => {
+            console.log(error);
+        }
+        );
+    }
+
     const {
         register,
         handleSubmit,
@@ -34,7 +62,7 @@ export const AddRentForm: FC<Props> = ({ clients, movies }) => {
                 client: clients[0],
                 movie: movies[0],
                 startDate: new Date().toISOString().split('T')[0],
-                endDate: new Date().toISOString().split('T')[0]
+                endDate: ""
             },
         }
     )
@@ -48,17 +76,18 @@ export const AddRentForm: FC<Props> = ({ clients, movies }) => {
             endDate: data.endDate
         }).then((response) => {
             console.log(response);
+            fetchRents();
+            setIsOpen(false);
         }, (error) => {
             console.log(error);
         });
-        setIsOpen(false);
-        navigation("/rents");
+
     }
 
     return (
         <>
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Add'>
-                <h4 className=" text-center">Edit movie form</h4>
+                <h4 className=" text-center">Add rent form</h4>
                 <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
 
 

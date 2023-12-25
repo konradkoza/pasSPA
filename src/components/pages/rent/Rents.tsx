@@ -1,9 +1,9 @@
-import instance from "../api/fetcher";
+import instance from "../../api/fetcher";
 import { useEffect, useState } from "react";
-import { Client } from "./Clients";
-import { Movie } from "./Movies";
-import { EndRentForm } from "./edit/EndRentForm";
-import { AddRentForm } from "./edit/AddRentForm";
+import { Client } from "../client/Clients";
+import { Movie } from "../movie/Movies";
+import { EndRentForm } from "./EndRentForm";
+import { AddRentForm } from "./AddRentForm";
 interface Rent {
     id: string;
     user: Client;
@@ -15,46 +15,39 @@ interface Rent {
 export const Rents = () => {
     const [currentRents, setCurrentRents] = useState<Rent[]>([]);
     const [pastRents, setPastRents] = useState<Rent[]>([]);
-    const [clients, setClients] = useState<Client[]>([]);
-    const [movies, setMovie] = useState<Movie[]>([]);
+
+
 
     useEffect(() => {
-        instance.get("/movies").then((response) => {
-            setMovie(response.data);
-        }, (error) => {
-            console.log(error);
-        }
-        );
+        fetchCurrentRents();
     }, []);
 
     useEffect(() => {
-
-        instance.get("/clients").then((response) => {
-            setClients(response.data.filter((client: Client) => client.active));
-        }, (error) => {
-            console.log(error);
-        }
-        );
-
+        fetchPastRents();
     }, []);
 
-
-    useEffect(() => {
+    const fetchCurrentRents = () => {
         instance.get("/rents/current").then((response) => {
             setCurrentRents(response.data);
         }, (error) => {
             console.log(error);
         }
         )
-    }, []);
+    }
 
-    useEffect(() => {
+    const fetchPastRents = () => {
         instance.get("/rents/past").then((response) => {
             setPastRents(response.data);
-        },
-            (error) => { console.log(error) }
-        );
-    }, []);
+        }, (error) => {
+            console.log(error);
+        }
+        )
+    }
+
+    const fetchRents = () => {
+        fetchCurrentRents();
+        fetchPastRents();
+    }
 
 
     return (
@@ -79,7 +72,7 @@ export const Rents = () => {
                                 {/* <td>{rent.endDate?.toString()}</td> */}
                                 <td>{
                                     rent.endDate ? rent.endDate.toString() :
-                                        <EndRentForm id={rent.id} />
+                                        <EndRentForm fetchRents={() => fetchRents()} id={rent.id} />
                                 }</td>
 
                             </tr>
@@ -115,7 +108,7 @@ export const Rents = () => {
                     </tbody>
 
                 </table>
-                <AddRentForm clients={clients} movies={movies} />
+                <AddRentForm fetchRents={() => fetchRents()} />
             </div>
         </>
     )

@@ -1,25 +1,19 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Movie } from './Movies';
 import instance from '../../api/fetcher';
-import { EditModal } from './FormModal';
-import { useNavigate } from 'react-router-dom';
+import { EditModal } from '../FormModal';
 
-
-export interface endRentRequest {
+interface Props {
     id: string;
-    endDate: string;
-}
-
-type Props = {
-    id: string;
+    title: string;
+    cost: number;
+    fetchMovies: () => void;
 
 }
 
-export const EndRentForm: FC<Props> = ({ id }) => {
-    let [isOpen, setIsOpen] = useState<boolean>(false)
-
-
-    let navigation = useNavigate();
+export const EditMovieForm: FC<Props> = ({ id, title, cost, fetchMovies }) => {
+    let [isOpen, setIsOpen] = useState(false)
     const {
         register,
         handleSubmit,
@@ -30,42 +24,48 @@ export const EndRentForm: FC<Props> = ({ id }) => {
         {
             defaultValues: {
                 id: id,
-                endDate: new Date().toISOString().split('T')[0]
+                title: title,
+                cost: cost
             },
         }
     )
 
-    const onSubmit = (data: endRentRequest) => {
+    const onSubmit = (data: Movie) => {
         console.log(data)
-        instance.patch(`/rents/${data.id}`, { endDate: data.endDate }).then((response) => {
+        instance.put(`/movies/${data.id}`, {
+            title: data.title,
+            cost: data.cost
+        }).then((response) => {
             console.log(response);
+            setIsOpen(false);
+            fetchMovies();
         }, (error) => {
             console.log(error);
         }
         );
-        setIsOpen(false);
-        navigation("/rents");
     }
 
-
-
     return (
-
         <>
-
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Edit'>
                 <h4 className=" text-center">Edit movie form</h4>
                 <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
 
                     <label>Id</label>
-                    <input {...register("id")} type="text" disabled={true} defaultValue={id} />
+                    <input {...register("id")} type="text" defaultValue={id} />
 
                     <label>Title</label>
-                    <input {...register("endDate")} type="date" />
+                    <input {...register("title")} type="text" defaultValue={title} />
+
+                    <label>Cost</label>
+                    <input {...register("cost")} type="text" defaultValue={cost} />
 
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
                 </form>
             </EditModal>
+
         </>
+
     )
+
 }

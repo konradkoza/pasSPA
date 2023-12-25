@@ -1,6 +1,6 @@
-import { Clients } from "./components/pages/Clients"
-import { Movies } from "./components/pages/Movies"
-import { Rents } from "./components/pages/Rents"
+import { Clients } from "./components/pages/client/Clients"
+import { Movies } from "./components/pages/movie/Movies"
+import { Rents } from "./components/pages/rent/Rents"
 import { AppLayout } from "./layouts/AppLayout"
 import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from "react-router-dom"
 

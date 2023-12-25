@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom"
-import { EditModal } from "./FormModal";
+import { EditModal } from "../FormModal";
 import { useForm } from "react-hook-form";
 import instance from "../../api/fetcher";
 
@@ -9,9 +8,12 @@ export interface MovieRequest {
     cost: number;
 }
 
-export const AddMovieForm: FC = () => {
+interface Props {
+    fetchMovies: () => void;
+}
+
+export const AddMovieForm: FC<Props> = ({ fetchMovies }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const navigation = useNavigate();
 
     const {
         register,
@@ -34,13 +36,14 @@ export const AddMovieForm: FC = () => {
             cost: data.cost
         }).then((response) => {
             console.log(response);
+            setIsOpen(false);
+            fetchMovies();
         }, (error) => {
             console.log(error);
         }
         );
         reset();
-        setIsOpen(false);
-        navigation("/movies");
+
 
     }
 

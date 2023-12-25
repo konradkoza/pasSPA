@@ -1,12 +1,12 @@
-import instance from "../api/fetcher";
+import instance from "../../api/fetcher";
 import { useEffect, useState } from "react";
-import { EditMovieForm } from "./edit/EditMovieForm";
-import { AddMovieForm } from "./edit/AddMovieForm";
+import { EditMovieForm } from "./EditMovieForm";
+import { AddMovieForm } from "./AddMovieForm";
 
 export interface Movie {
     id: string;
     title: string;
-    cost: string;
+    cost: number;
 }
 
 
@@ -15,19 +15,24 @@ export const Movies = () => {
     const [movies, setMovie] = useState<Movie[]>([]);
 
     useEffect(() => {
-        instance.get("/movies").then((response) => {
-            setMovie(response.data);
-        }, (error) => {
-            console.log(error);
-        }
-        );
+        fetchMovies();
     }, []);
 
     const handleDelete = (id: string) => {
         instance.delete(`/movies/${id}`).then((response) => {
             console.log(response);
+            fetchMovies();
         }, (error) => {
             alert(error.response.data.message)
+            console.log(error);
+        }
+        );
+    }
+
+    const fetchMovies = () => {
+        instance.get("/movies").then((response) => {
+            setMovie(response.data);
+        }, (error) => {
             console.log(error);
         }
         );
@@ -45,13 +50,13 @@ export const Movies = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {movies.map((movie) => (
+                        {movies.sort((a, b) => { return a.title < b.title ? -1 : 1 }).map((movie) => (
                             <tr key={movie.id}>
                                 <td>{movie.title}</td>
                                 <td>{movie.cost}</td>
                                 <td>{movie.id}</td>
                                 <td><button onClick={() => handleDelete(movie.id)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32">Delete</button></td>
-                                <td><EditMovieForm {...movie} /></td>
+                                <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td>
                             </tr>
                         ))}
 
@@ -59,7 +64,7 @@ export const Movies = () => {
 
                 </table>
                 <div className="flex justify-center">
-                    <AddMovieForm />
+                    <AddMovieForm fetchMovies={() => fetchMovies()} />
                 </div>
 
             </div>

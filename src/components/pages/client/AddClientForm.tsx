@@ -1,8 +1,7 @@
 import { FC, useState } from "react"
-import { EditModal } from "./FormModal"
+import { EditModal } from "../FormModal"
 import { useForm } from "react-hook-form"
 import instance from "../../api/fetcher"
-import { useNavigate } from "react-router-dom"
 
 export interface ClientRequest {
     firstName: string;
@@ -11,10 +10,14 @@ export interface ClientRequest {
     active: boolean;
 }
 
-export const AddClientForm: FC = () => {
+interface Props {
+
+    fetchClients: () => void;
+}
+
+export const AddClientForm: FC<Props> = ({ fetchClients }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const navigation = useNavigate();
 
     const {
         register,
@@ -41,13 +44,14 @@ export const AddClientForm: FC = () => {
             active: data.active
         }).then((response) => {
             console.log(response);
+            setIsOpen(false);
+            fetchClients();
         }, (error) => {
             console.log(error);
         }
         );
         reset();
-        setIsOpen(false);
-        navigation("/clients");
+
 
     }
 

@@ -1,7 +1,7 @@
-import instance from "../api/fetcher";
+import instance from "../../api/fetcher";
 import { FC, useEffect, useState } from "react";
-import { EditForm } from "./edit/EditClientForm";
-import { AddClientForm } from "./edit/AddClientForm";
+import { EditForm } from "./EditClientForm";
+import { AddClientForm } from "./AddClientForm";
 
 
 export interface Client {
@@ -18,19 +18,27 @@ export const Clients: FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
     useEffect(() => {
 
-        instance.get("/clients").then((response) => {
-            setClients(response.data);
+        fetchClients();
+
+    }, []);
+
+    const setActive = (id: string, value: boolean) => {
+        instance.patch(`/users/${id}`, { active: value }).then((response) => {
+            console.log(response);
+            fetchClients();
         }, (error) => {
             console.log(error);
         }
         );
 
-    }, []);
 
-    //setActive function for client
-    const setActive = (id: string, value: boolean) => {
-        instance.patch(`/users/${id}`, { active: value }).then((response) => {
-            console.log(response);
+
+
+    }
+
+    const fetchClients = () => {
+        instance.get("/clients").then((response) => {
+            setClients(response.data);
         }, (error) => {
             console.log(error);
         }
@@ -59,7 +67,7 @@ export const Clients: FC = () => {
                                 <td>{client.username}</td>
                                 <td>{client.active ? "true" : "false"}</td>
                                 <td><button onClick={() => setActive(client.id, client.active ? false : true)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32"> {client.active ? "deactivate" : "activate"} </button> </td>
-                                <td><EditForm {...client} /></td>
+                                <td><EditForm {...client} fetchClients={() => fetchClients()} /></td>
                             </tr>
                         ))}
                     </tbody>
@@ -67,7 +75,7 @@ export const Clients: FC = () => {
 
             </div>
             <div className="">
-                <AddClientForm />
+                <AddClientForm fetchClients={() => fetchClients()} />
             </div>
 
         </>

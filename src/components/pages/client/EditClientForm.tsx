@@ -1,14 +1,22 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Client } from '../Clients';
+import { Client } from './Clients';
 import instance from '../../api/fetcher';
 // import { Dialog } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom';
-import { EditModal } from './FormModal';
+import { EditModal } from '../FormModal';
 
 
+interface Props {
+    id: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    active: boolean;
+    fetchClients: () => void;
+}
 
-export const EditForm: FC<Client> = ({ id, firstName, lastName, username, active }) => {
+export const EditForm: FC<Props> = ({ id, firstName, lastName, username, active, fetchClients }) => {
     let [isOpen, setIsOpen] = useState<boolean>(false)
 
 
@@ -41,12 +49,14 @@ export const EditForm: FC<Client> = ({ id, firstName, lastName, username, active
             active: data.active
         }).then((response) => {
             console.log(response);
+            setIsOpen(false);
+            fetchClients();
+            navigation("/clients");
         }, (error) => {
             console.log(error);
         }
         );
-        setIsOpen(false);
-        navigation("/clients");
+
     }
 
     return (
