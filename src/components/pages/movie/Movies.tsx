@@ -40,7 +40,7 @@ export const Movies = () => {
 
     return (
         <>
-            <div>
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col">
                 <table>
                     <thead>
                         <tr>
@@ -63,10 +63,10 @@ export const Movies = () => {
                     </tbody>
 
                 </table>
-                <div className="flex justify-center">
-                    <AddMovieForm fetchMovies={() => fetchMovies()} />
-                </div>
 
+            </div>
+            <div className="flex justify-end">
+                <AddMovieForm fetchMovies={() => fetchMovies()} />
             </div>
         </>
     )

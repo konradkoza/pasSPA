@@ -2,7 +2,7 @@ import instance from "../../api/fetcher";
 import { FC, useEffect, useState } from "react";
 import { EditForm } from "./EditClientForm";
 import { AddClientForm } from "./AddClientForm";
-
+import { NavLink } from "react-router-dom";
 
 export interface Client {
     id: string;
@@ -16,6 +16,15 @@ export interface Client {
 
 export const Clients: FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
+    const [filterValue, setFilterValue] = useState('');
+
+    const filteredClients = clients.filter((client) =>
+        client.username.includes(filterValue)
+    );
+
+    const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFilterValue(event.target.value);
+    };
     useEffect(() => {
 
         fetchClients();
@@ -47,7 +56,13 @@ export const Clients: FC = () => {
 
     return (
         <>
-            <div >
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col">
+                <input
+                    type="text"
+                    value={filterValue}
+                    onChange={handleFilterChange}
+                    placeholder="Filter by username"
+                />
                 <table>
                     <thead>
                         <tr>
@@ -59,7 +74,7 @@ export const Clients: FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {clients.map((client) => (
+                        {filteredClients.map((client) => (
                             <tr key={client.id}>
                                 <td>{client.firstName}</td>
                                 <td>{client.lastName}</td>
@@ -68,13 +83,14 @@ export const Clients: FC = () => {
                                 <td>{client.active ? "true" : "false"}</td>
                                 <td><button onClick={() => setActive(client.id, client.active ? false : true)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32"> {client.active ? "deactivate" : "activate"} </button> </td>
                                 <td><EditForm {...client} fetchClients={() => fetchClients()} /></td>
+                                <td><NavLink to={client.id}>CLient's Rents</NavLink></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
             </div>
-            <div className="">
+            <div className="flex justify-end">
                 <AddClientForm fetchClients={() => fetchClients()} />
             </div>
 

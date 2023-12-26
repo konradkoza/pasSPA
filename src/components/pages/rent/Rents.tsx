@@ -4,12 +4,13 @@ import { Client } from "../client/Clients";
 import { Movie } from "../movie/Movies";
 import { EndRentForm } from "./EndRentForm";
 import { AddRentForm } from "./AddRentForm";
-interface Rent {
+
+export interface Rent {
     id: string;
     user: Client;
     movie: Movie;
-    startDate: Date;
-    endDate: Date | null;
+    startDate: string;
+    endDate: string | null;
 }
 
 export const Rents = () => {
@@ -51,8 +52,8 @@ export const Rents = () => {
 
 
     return (
-        <>
-            <div>
+        <div className="">
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col" >
                 <h1>Current Rents</h1>
                 <table>
                     <thead>
@@ -83,7 +84,7 @@ export const Rents = () => {
                 </table>
 
             </div>
-            <div>
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col mt-3">
                 <h1>Past Rents</h1>
                 <table>
                     <thead>
@@ -108,9 +109,12 @@ export const Rents = () => {
                     </tbody>
 
                 </table>
+            </div>
+            <div className="flex justify-end">
                 <AddRentForm fetchRents={() => fetchRents()} />
             </div>
-        </>
+
+        </div>
     )
 
 

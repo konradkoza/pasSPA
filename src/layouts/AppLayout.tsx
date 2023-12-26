@@ -10,10 +10,8 @@ export const AppLayout = () => {
                 <NavLink to="/movies">Movies</NavLink>
                 <NavLink to="/rents">Rents</NavLink>
             </div>
-            <div className="flex justify-center items-center">
-                <div className="flex justify-center items-center w-11/12 bg-gray-200 p-4 rounded-lg flex-col">
-                    <Outlet />
-                </div>
+            <div className="flex justify-center flex-col items-center">
+                <Outlet />
             </div>
 
         </>
