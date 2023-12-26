@@ -56,7 +56,7 @@ export const Clients: FC = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col">
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2">
                 <input
                     type="text"
                     value={filterValue}
@@ -81,16 +81,16 @@ export const Clients: FC = () => {
                                 <td>{client.id}</td>
                                 <td>{client.username}</td>
                                 <td>{client.active ? "true" : "false"}</td>
-                                <td><button onClick={() => setActive(client.id, client.active ? false : true)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32"> {client.active ? "deactivate" : "activate"} </button> </td>
+                                <td><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button> </td>
                                 <td><EditForm {...client} fetchClients={() => fetchClients()} /></td>
-                                <td><NavLink to={client.id}>CLient's Rents</NavLink></td>
+                                <td><NavLink to={client.id} className={"btn2"}>Rents</NavLink></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
             </div>
-            <div className="flex justify-end">
+            <div className="flex">
                 <AddClientForm fetchClients={() => fetchClients()} />
             </div>
 

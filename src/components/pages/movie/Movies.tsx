@@ -40,7 +40,7 @@ export const Movies = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col">
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2">
                 <table>
                     <thead>
                         <tr>
@@ -55,7 +55,7 @@ export const Movies = () => {
                                 <td>{movie.title}</td>
                                 <td>{movie.cost}</td>
                                 <td>{movie.id}</td>
-                                <td><button onClick={() => handleDelete(movie.id)} className="col-span-2 bg-blue-500 text-white rounded p-2 w-32">Delete</button></td>
+                                <td><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></td>
                                 <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td>
                             </tr>
                         ))}
@@ -65,7 +65,7 @@ export const Movies = () => {
                 </table>
 
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-center">
                 <AddMovieForm fetchMovies={() => fetchMovies()} />
             </div>
         </>

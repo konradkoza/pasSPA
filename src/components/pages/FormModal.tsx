@@ -18,7 +18,7 @@ export const EditModal: FC<Props> = ({ children, isOpen, setIsOpen, buttonText }
 
     return (
         <>
-            <button className=' text-white bg-blue-600 w-20 rounded-sm ml-2 my-2' onClick={() => setIsOpen(true)}>{buttonText}</button>
+            <button className='btn-edit' onClick={() => setIsOpen(true)}>{buttonText}</button>
             <Dialog
                 about="div"
                 open={isOpen}

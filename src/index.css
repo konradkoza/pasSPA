@@ -21,3 +21,28 @@
         @apply p-2;
     }
 }
+
+@layer components {
+   
+    .btn-edit {
+        @apply flex justify-center text-white bg-blue-600 w-24 rounded-sm p-1;
+    }
+
+    .btn-edit:hover {
+        @apply bg-blue-700; 
+        @apply text-white;
+        @apply transform scale-105;
+    }
+
+    .btn-delete {
+        @apply flex justify-center text-white bg-red-600 w-24 rounded-sm p-1;
+    }
+
+    .btn-delete:hover {
+        @apply bg-red-700; 
+        @apply text-white;
+        @apply transform scale-105;
+    }
+
+    
+}

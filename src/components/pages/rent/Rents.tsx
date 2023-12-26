@@ -52,8 +52,8 @@ export const Rents = () => {
 
 
     return (
-        <div className="">
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col" >
+        <>
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2" >
                 <h1>Current Rents</h1>
                 <table>
                     <thead>
@@ -84,7 +84,7 @@ export const Rents = () => {
                 </table>
 
             </div>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col mt-3">
+            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2">
                 <h1>Past Rents</h1>
                 <table>
                     <thead>
@@ -110,11 +110,11 @@ export const Rents = () => {
 
                 </table>
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-center">
                 <AddRentForm fetchRents={() => fetchRents()} />
             </div>
 
-        </div>
+        </>
     )
 
 
