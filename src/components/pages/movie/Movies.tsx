@@ -2,12 +2,8 @@ import instance from "../../api/fetcher";
 import { useEffect, useState } from "react";
 import { EditMovieForm } from "./EditMovieForm";
 import { AddMovieForm } from "./AddMovieForm";
+import { Movie } from "../../types/types";
 
-export interface Movie {
-    id: string;
-    title: string;
-    cost: number;
-}
 
 
 
@@ -23,7 +19,7 @@ export const Movies = () => {
             console.log(response);
             fetchMovies();
         }, (error) => {
-            alert(error.response.data.message)
+            alert(error.response.data);
             console.log(error);
         }
         );

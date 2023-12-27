@@ -1,36 +1,32 @@
 import { FC, useState, useEffect } from 'react';
-import { Movie } from '../movie/Movies';
+import { Movie, Client } from "../../types/types";
 import instance from '../../api/fetcher';
-import { Client } from '../client/Clients';
 import { EditModal } from '../FormModal';
 import { useForm } from 'react-hook-form';
-
-interface Props {
-    fetchRents: () => void;
-}
-
-interface RentRequest {
-    client: Client;
-    movie: Movie;
-    startDate: string;
-    endDate: string;
-}
+import { zodResolver } from "@hookform/resolvers/zod"
+import { addRentSchema, TaddRentSchema } from "../../types/schemas"
+import { RentRequest } from "../../types/types";
 
 
-export const AddRentForm: FC<Props> = ({ fetchRents }) => {
-    let [isOpen, setIsOpen] = useState(false)
+
+export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => {
+    const [isOpen, setIsOpen] = useState(false)
     const [clients, setClients] = useState<Client[]>([]);
     const [movies, setMovie] = useState<Movie[]>([]);
+    const [responseError, setResponseError] = useState<string>("")
+
 
     useEffect(() => {
-        fetchMovies();
-    }, []);
+        if (!isOpen) {
+            setResponseError("");
+            reset();
+        }
+        if (isOpen) {
+            fetchClients();
+            fetchMovies();
+        }
+    }, [isOpen]);
 
-    useEffect(() => {
-
-        fetchClients();
-
-    }, []);
 
     const fetchMovies = () => {
         instance.get("/movies").then((response) => {
@@ -53,33 +49,36 @@ export const AddRentForm: FC<Props> = ({ fetchRents }) => {
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting },
-        // reset,
+        formState: { errors, isSubmitting },
+        reset,
         // getValues,
-    } = useForm(
+    } = useForm<TaddRentSchema>(
         {
             defaultValues: {
-                client: clients[0],
-                movie: movies[0],
+                clientId: clients[0]?.id,
+                movieId: movies[0]?.id,
                 startDate: new Date().toISOString().split('T')[0],
-                endDate: ""
+                endDate: "",
             },
+            resolver: zodResolver(addRentSchema)
         }
     )
 
     const onSubmit = (data: RentRequest) => {
         console.log(data)
+        setResponseError("");
         instance.post("/rents", {
-            clientID: data.client,
-            movieID: data.movie,
+            clientID: data.clientId,
+            movieID: data.movieId,
             startDate: data.startDate,
             endDate: data.endDate
         }).then((response) => {
             console.log(response);
             fetchRents();
+            reset();
             setIsOpen(false);
         }, (error) => {
-            console.log(error);
+            setResponseError(error.response.data);
         });
 
     }
@@ -88,20 +87,19 @@ export const AddRentForm: FC<Props> = ({ fetchRents }) => {
         <>
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Add'>
                 <h4 className=" text-center">Add rent form</h4>
-                <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
+                <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
 
 
                     <label>Client</label>
-                    <select {...register("client")}>
+                    <select {...register("clientId")}>
                         {clients.map((client) => (
                             <option key={client.id} value={client.id}>
                                 {client.username}
                             </option>
                         ))}
                     </select>
-
                     <label>Movie</label>
-                    <select {...register("movie")}>
+                    <select {...register("movieId")}>
                         {movies.map((movie) => (
                             <option key={movie.id} value={movie.id}>
                                 {movie.title}
@@ -109,13 +107,14 @@ export const AddRentForm: FC<Props> = ({ fetchRents }) => {
                         ))}
                     </select>
 
-
                     <label>Start Date</label>
                     <input {...register("startDate")} type="date" />
-
+                    {errors.startDate && <p className="text-red-600 text-xs">{errors.startDate.message}</p>}
                     <label>End Date (optional)</label>
-                    <input {...register("endDate")} type="date" />
-
+                    <input {...register("endDate"
+                    )} type="date" />
+                    {errors.endDate && <p className="text-red-600 text-xs">{errors.endDate.message}</p>}
+                    {responseError && <p className="text-red-600 text-xs">{responseError}</p>}
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
                 </form>
             </EditModal>

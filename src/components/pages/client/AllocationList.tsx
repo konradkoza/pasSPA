@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { Client } from '../client/Clients';
-import { Rent } from '../rent/Rents';
+import { Client } from "../../types/types";
+import { Rent } from "../../types/types";
 import instance from '../../api/fetcher';
 import { EndRentForm } from '../rent/EndRentForm';
 
@@ -12,7 +12,6 @@ const AllocationList = () => {
     const [client, setClient] = useState<Client | null>(null);
 
     useEffect(() => {
-        // Fetch client details
         instance.get(`/users/${id}`)
             .then((response) => setClient(response.data))
             .catch((error) => console.log(error));
@@ -76,7 +75,6 @@ const AllocationList = () => {
                                     <td>{rent.user.username}</td>
                                     <td>{rent.movie.title}</td>
                                     <td>{rent.startDate.toString()}</td>
-                                    {/* <td>{rent.endDate?.toString()}</td> */}
                                     <td>{
                                         rent.endDate ? rent.endDate.toString() :
                                             <EndRentForm fetchRents={() => fetchRents()} id={rent.id} />

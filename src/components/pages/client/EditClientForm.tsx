@@ -1,33 +1,27 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Client } from './Clients';
+import { Client, EditClientProps } from "../../types/types";
+import { editClientSchema, TeditClientSchema } from "../../types/schemas"
 import instance from '../../api/fetcher';
-// import { Dialog } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom';
 import { EditModal } from '../FormModal';
+import { zodResolver } from "@hookform/resolvers/zod"
 
 
-interface Props {
-    id: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    active: boolean;
-    fetchClients: () => void;
-}
 
-export const EditForm: FC<Props> = ({ id, firstName, lastName, username, active, fetchClients }) => {
+
+export const EditClientForm: FC<EditClientProps> = ({ id, firstName, lastName, username, active, fetchClients }) => {
     let [isOpen, setIsOpen] = useState<boolean>(false)
-
+    const [responseError, setResponseError] = useState<string>("")
 
     let navigation = useNavigate();
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting },
-        // reset,
+        formState: { errors, isSubmitting },
+        reset,
         // getValues,
-    } = useForm(
+    } = useForm<TeditClientSchema>(
         {
             defaultValues: {
                 id: id,
@@ -36,9 +30,15 @@ export const EditForm: FC<Props> = ({ id, firstName, lastName, username, active,
                 username: username,
                 active: active
             },
+            resolver: zodResolver(editClientSchema),
         }
     )
 
+    useEffect(() => {
+        if (!isOpen) {
+            reset();
+        }
+    }, [isOpen]);
 
     const onSubmit = (data: Client) => {
         console.log(data)
@@ -53,7 +53,7 @@ export const EditForm: FC<Props> = ({ id, firstName, lastName, username, active,
             fetchClients();
             navigation("/clients");
         }, (error) => {
-            console.log(error);
+            setResponseError(error.response.data);
         }
         );
 
@@ -64,27 +64,31 @@ export const EditForm: FC<Props> = ({ id, firstName, lastName, username, active,
         <>
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Edit'>
                 <h4 className=" text-center">Edit client form</h4>
-                <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
+                <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
 
                     <label>Id</label>
-                    <input {...register("id")} type="text" defaultValue={id} />
+                    <input {...register("id")} disabled={true} type="text" value={id} />
 
 
                     <label>First Name</label>
-                    <input  {...register("firstName")} type="text" defaultValue={firstName} />
-
+                    <input  {...register("firstName")} required type="text" defaultValue={firstName} />
+                    {errors.firstName && <p className="text-red-600">{errors.firstName.message}</p>}
 
                     <label>Last Name</label>
-                    <input  {...register("lastName")} type="text" defaultValue={lastName} />
-
+                    <input  {...register("lastName")} required type="text" defaultValue={lastName} />
+                    {errors.lastName && <p className="text-red-600">{errors.lastName.message}</p>}
 
                     <label>Username</label>
-                    <input {...register("username")} type="text" defaultValue={username} />
+                    <input {...register("username")} required type="text" defaultValue={username} />
+                    {errors.username && <p className="text-red-600">{errors.username.message}</p>}
 
-
-                    <label>Active</label>
-                    <input {...register("active")} className=" place-self-start" type="checkbox" defaultChecked={active} />
-
+                    <div>
+                        <input {...register("active")} className=" place-self-start" type="checkbox" defaultChecked={active} />
+                        <label>Active</label>
+                    </div>
+                    {responseError && (
+                        <p className="text-red-600">{responseError}</p>
+                    )}
                     <button disabled={isSubmitting} className=" col-span-2 bg-blue-500 text-white rounded p-2" type="submit">Submit</button>
                 </form>
 

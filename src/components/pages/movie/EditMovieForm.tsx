@@ -1,34 +1,42 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Movie } from './Movies';
+import { Movie } from "../../types/types";
 import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { EditMovieProps } from "../../types/types";
+import { editMovieSchema, TeditMovieSchema } from "../../types/schemas"
 
-interface Props {
-    id: string;
-    title: string;
-    cost: number;
-    fetchMovies: () => void;
 
-}
 
-export const EditMovieForm: FC<Props> = ({ id, title, cost, fetchMovies }) => {
+
+
+
+
+export const EditMovieForm: FC<EditMovieProps> = ({ id, title, cost, fetchMovies }) => {
     let [isOpen, setIsOpen] = useState(false)
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting },
-        // reset,
+        formState: { errors, isSubmitting },
+        reset,
         // getValues,
-    } = useForm(
+    } = useForm<TeditMovieSchema>(
         {
             defaultValues: {
                 id: id,
                 title: title,
                 cost: cost
             },
+            resolver: zodResolver(editMovieSchema)
         }
     )
+
+    useEffect(() => {
+        if (!isOpen) {
+            reset();
+        }
+    }, [isOpen]);
 
     const onSubmit = (data: Movie) => {
         console.log(data)
@@ -49,17 +57,21 @@ export const EditMovieForm: FC<Props> = ({ id, title, cost, fetchMovies }) => {
         <>
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Edit'>
                 <h4 className=" text-center">Edit movie form</h4>
-                <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
+                <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
 
                     <label>Id</label>
-                    <input {...register("id")} type="text" defaultValue={id} />
+                    <input {...register("id")} disabled type="text" defaultValue={id} />
 
                     <label>Title</label>
                     <input {...register("title")} type="text" defaultValue={title} />
-
+                    {errors.title && <p className="text-red-600 text-xs">{errors.title.message}</p>}
                     <label>Cost</label>
-                    <input {...register("cost")} type="text" defaultValue={cost} />
+                    <input {...register("cost",
+                        {
+                            valueAsNumber: true
 
+                        })} type="number" />
+                    {errors.cost && <p className="text-red-600 text-xs">{errors.cost.message}</p>}
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
                 </form>
             </EditModal>

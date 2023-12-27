@@ -1,17 +1,9 @@
 import instance from "../../api/fetcher";
 import { FC, useEffect, useState } from "react";
-import { EditForm } from "./EditClientForm";
+import { EditClientForm } from "./EditClientForm";
 import { AddClientForm } from "./AddClientForm";
 import { NavLink } from "react-router-dom";
-
-export interface Client {
-    id: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    active: boolean;
-}
-
+import { Client } from "../../types/types";
 
 
 export const Clients: FC = () => {
@@ -82,8 +74,8 @@ export const Clients: FC = () => {
                                 <td>{client.username}</td>
                                 <td>{client.active ? "true" : "false"}</td>
                                 <td><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button> </td>
-                                <td><EditForm {...client} fetchClients={() => fetchClients()} /></td>
-                                <td><NavLink to={client.id} className={"btn2"}>Rents</NavLink></td>
+                                <td><EditClientForm {...client} fetchClients={() => fetchClients()} /></td>
+                                <td><NavLink to={client.id} className={"btn-edit"}>Rents</NavLink></td>
                             </tr>
                         ))}
                     </tbody>

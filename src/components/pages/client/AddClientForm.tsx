@@ -2,30 +2,24 @@ import { FC, useState } from "react"
 import { EditModal } from "../FormModal"
 import { useForm } from "react-hook-form"
 import instance from "../../api/fetcher"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ClientRequest } from "../../types/types";
+import { addClientSchema, TaddClientSchema } from "../../types/schemas"
 
-export interface ClientRequest {
-    firstName: string;
-    lastName: string;
-    username: string;
-    active: boolean;
-}
 
-interface Props {
 
-    fetchClients: () => void;
-}
 
-export const AddClientForm: FC<Props> = ({ fetchClients }) => {
+export const AddClientForm: FC<{ fetchClients: () => void }> = ({ fetchClients }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-
+    const [responseError, setResponseError] = useState<string>("")
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting },
+        formState: { errors, isSubmitting },
         reset,
         // getValues,
-    } = useForm(
+    } = useForm<TaddClientSchema>(
         {
             defaultValues: {
                 firstName: "",
@@ -33,7 +27,9 @@ export const AddClientForm: FC<Props> = ({ fetchClients }) => {
                 username: "",
                 active: false
             },
+            resolver: zodResolver(addClientSchema)
         }
+
     )
 
     const onSubmit = (data: ClientRequest) => {
@@ -47,7 +43,7 @@ export const AddClientForm: FC<Props> = ({ fetchClients }) => {
             setIsOpen(false);
             fetchClients();
         }, (error) => {
-            console.log(error);
+            setResponseError(error.response.data);
         }
         );
         reset();
@@ -60,20 +56,30 @@ export const AddClientForm: FC<Props> = ({ fetchClients }) => {
         <>
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Add'>
                 <h4 className=" text-center">Add client form</h4>
-                <form className="grid grid-cols-2 p-5" onSubmit={handleSubmit(onSubmit)}>
+                <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
 
-                    <label>First Name</label>
-                    <input {...register("firstName")} type="text" />
-
-                    <label>Last Name</label>
-                    <input {...register("lastName")} type="text" />
-
-                    <label>Username</label>
-                    <input {...register("username")} type="text" />
-
-                    <label>Active</label>
-                    <input {...register("active")} type="checkbox" />
-
+                    <label htmlFor="firstName">First Name</label>
+                    <input {...register("firstName")} required id="firstName" type="text" />
+                    {errors.firstName && (
+                        <p className="text-red-600">{`${errors.firstName.message}`}</p>
+                    )}
+                    <label htmlFor="lastName">Last Name</label>
+                    <input {...register("lastName")} id="lastNamex`" required type="text" />
+                    {errors.lastName && (
+                        <p className="text-red-600">{`${errors.lastName.message}`}</p>
+                    )}
+                    <label htmlFor="username">Username</label>
+                    <input {...register("username")} id="username" required type="text" />
+                    {errors.username && (
+                        <p className="text-red-600">{`${errors.username.message}`}</p>
+                    )}
+                    <div>
+                        <input {...register("active")} className="" id="active" type="checkbox" />
+                        <label htmlFor="active">Active</label>
+                    </div>
+                    {responseError && (
+                        <p className="text-red-600">{responseError}</p>
+                    )}
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
 
                 </form>

@@ -12,7 +12,6 @@ type Props = {
 
 
 export const EditModal: FC<Props> = ({ children, isOpen, setIsOpen, buttonText }) => {
-    // const [isModalOpen, setIsOpen] = useState(isOpen)
 
 
 
@@ -26,8 +25,8 @@ export const EditModal: FC<Props> = ({ children, isOpen, setIsOpen, buttonText }
                 className="relative z-50 "
             >
                 <div className="fixed inset-0 bg-black/30" aria-hidden="true"></div>
-                <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-                    <Dialog.Panel className="mx-auto w-3/4 min-w-fit h-fit rounded bg-white">
+                <div className="fixed inset-0 flex w-screen items-center justify-center">
+                    <Dialog.Panel className=" w-3/4 min-w-fit h-fit rounded bg-white p-4">
 
                         {children}
                     </Dialog.Panel>

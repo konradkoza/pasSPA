@@ -1,17 +1,10 @@
 import instance from "../../api/fetcher";
 import { useEffect, useState } from "react";
-import { Client } from "../client/Clients";
-import { Movie } from "../movie/Movies";
+import { Rent } from "../../types/types";
 import { EndRentForm } from "./EndRentForm";
 import { AddRentForm } from "./AddRentForm";
 
-export interface Rent {
-    id: string;
-    user: Client;
-    movie: Movie;
-    startDate: string;
-    endDate: string | null;
-}
+
 
 export const Rents = () => {
     const [currentRents, setCurrentRents] = useState<Rent[]>([]);
