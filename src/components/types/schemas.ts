@@ -4,9 +4,9 @@ import { z } from "zod";
 
 export const editClientSchema = z.object({
     id: z.string(),
-    firstName: z.string().min(2).max(20).regex(/^[a-zA-Z]+$/),
-    lastName: z.string().min(2).max(20).regex(/^[a-zA-Z]+([ -]{1}[a-zA-Z]+)*$/),
-    username: z.string().min(2).max(20).regex(/^[a-zA-Z0-9_]+$/),
+    firstName: z.string().min(2).max(20),
+    lastName: z.string().min(2).max(20),
+    username: z.string().min(2).max(20),
     active: z.boolean()
 
 })
@@ -16,9 +16,9 @@ export type TeditClientSchema = z.infer<typeof editClientSchema>
 
 export const addClientSchema = z.object({
 
-    firstName: z.string().min(2).max(20).regex(/^[a-zA-Z]+$/),
-    lastName: z.string().min(2).max(20).regex(/^[a-zA-Z]+([ -]{1}[a-zA-Z]+)*$/),
-    username: z.string().min(2).max(20).regex(/^[a-zA-Z0-9_]+$/),
+    firstName: z.string().min(2).max(20),
+    lastName: z.string().min(2).max(20),
+    username: z.string().min(2).max(20),
     active: z.boolean()
 
 })
@@ -28,7 +28,7 @@ export type TaddClientSchema = z.infer<typeof addClientSchema>
 
 export const movieSchema = z.object({
 
-    title: z.string().min(2).max(20),
+    title: z.string().min(2).max(40),
     cost: z.number().min(0)
 })
 
@@ -36,7 +36,7 @@ export type TmovieSchema = z.infer<typeof movieSchema>
 
 export const editMovieSchema = z.object({
     id: z.string(),
-    title: z.string().min(2).max(20),
+    title: z.string().min(2).max(40),
     cost: z.number().min(0)
 })
 
