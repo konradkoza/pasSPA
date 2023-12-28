@@ -4,7 +4,8 @@ import { EditClientForm } from "./EditClientForm";
 import { AddClientForm } from "./AddClientForm";
 import { NavLink } from "react-router-dom";
 import { Client } from "../../types/types";
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Clients: FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
@@ -27,6 +28,7 @@ export const Clients: FC = () => {
         instance.patch(`/users/${id}`, { active: value }).then((response) => {
             console.log(response);
             fetchClients();
+            toast.success("Client updated");
         }, (error) => {
             console.log(error);
         }
@@ -41,6 +43,7 @@ export const Clients: FC = () => {
         instance.get("/clients").then((response) => {
             setClients(response.data);
         }, (error) => {
+            toast.error("Could not load clients");
             console.log(error);
         }
         );
@@ -48,7 +51,7 @@ export const Clients: FC = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2">
+            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2">
                 <input
                     type="text"
                     value={filterValue}

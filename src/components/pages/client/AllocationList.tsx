@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Client } from "../../types/types";
 import { Rent } from "../../types/types";
 import instance from '../../api/fetcher';
@@ -53,12 +53,9 @@ const AllocationList = () => {
 
     return (
         <>
-            <div className='flex font-bold mb-5'>
-                <NavLink className="" to="/clients">Back to clients</NavLink>
-            </div>
-            {client && <h1 className='mb-2'>Rents of {client.username} (id: {client.id})</h1>}
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col">
-                <h1>Current Rents</h1>
+
+            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col">
+                <h1>Current Rents {client && "of " + client.username}</h1>
                 {currentRents.length > 0 ? (
                     <table>
                         <thead>
@@ -89,7 +86,7 @@ const AllocationList = () => {
                 ) : (
                     <p>No current rents found.</p>
                 )}
-                <h1>Past Rents</h1>
+                <h1>Past Rents  {client && "of " + client.username}</h1>
                 {pastRents.length > 0 ? (
                     <table>
                         <thead>

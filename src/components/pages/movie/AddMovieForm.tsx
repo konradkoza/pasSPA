@@ -5,7 +5,8 @@ import instance from "../../api/fetcher";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MovieRequest } from "../../types/types";
 import { movieSchema, TmovieSchema } from "../../types/schemas"
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AddMovieForm: FC<{ fetchMovies: () => void }> = ({ fetchMovies }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -34,7 +35,9 @@ export const AddMovieForm: FC<{ fetchMovies: () => void }> = ({ fetchMovies }) =
             console.log(response);
             setIsOpen(false);
             fetchMovies();
+            toast.success("Movie added");
         }, (error) => {
+            toast.error(error.response.data);
             console.log(error);
         }
         );

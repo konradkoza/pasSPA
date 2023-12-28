@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 export const AppLayout = () => {
     return (
@@ -10,6 +11,18 @@ export const AppLayout = () => {
                 <NavLink to="/movies">Movies</NavLink>
                 <NavLink to="/rents">Rents</NavLink>
             </div>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <div className="flex justify-center flex-col items-center">
                 <Outlet />
             </div>

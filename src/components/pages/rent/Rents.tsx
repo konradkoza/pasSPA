@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Rent } from "../../types/types";
 import { EndRentForm } from "./EndRentForm";
 import { AddRentForm } from "./AddRentForm";
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const Rents = () => {
@@ -24,6 +25,7 @@ export const Rents = () => {
         instance.get("/rents/current").then((response) => {
             setCurrentRents(response.data);
         }, (error) => {
+            toast.error("Could not load current rents");
             console.log(error);
         }
         )
@@ -33,6 +35,7 @@ export const Rents = () => {
         instance.get("/rents/past").then((response) => {
             setPastRents(response.data);
         }, (error) => {
+            toast.error("Could not load past rents");
             console.log(error);
         }
         )
@@ -46,7 +49,7 @@ export const Rents = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2" >
+            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2" >
                 <h1>Current Rents</h1>
                 <table>
                     <thead>
@@ -77,7 +80,7 @@ export const Rents = () => {
                 </table>
 
             </div>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2">
+            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2">
                 <h1>Past Rents</h1>
                 <table>
                     <thead>

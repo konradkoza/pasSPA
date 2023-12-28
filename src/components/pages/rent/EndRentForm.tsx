@@ -5,7 +5,8 @@ import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { endRentSchema } from "../../types/schemas"
 import { endRentRequest, EndRentProps } from "../../types/types"
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -36,7 +37,9 @@ export const EndRentForm: FC<EndRentProps> = ({ id, fetchRents }) => {
             console.log(response);
             setIsOpen(false);
             fetchRents();
+            toast.success("End date added");
         }, (error) => {
+            toast.error(error.response.data);
             console.log(error);
         }
         );

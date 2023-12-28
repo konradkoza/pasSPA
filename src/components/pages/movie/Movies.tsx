@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { EditMovieForm } from "./EditMovieForm";
 import { AddMovieForm } from "./AddMovieForm";
 import { Movie } from "../../types/types";
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -17,9 +18,11 @@ export const Movies = () => {
     const handleDelete = (id: string) => {
         instance.delete(`/movies/${id}`).then((response) => {
             console.log(response);
+            toast.success("Movie deleted");
             fetchMovies();
         }, (error) => {
-            alert(error.response.data);
+            toast.error(error.response.data);
+            // alert(error.response.data);
             console.log(error);
         }
         );
@@ -29,6 +32,7 @@ export const Movies = () => {
         instance.get("/movies").then((response) => {
             setMovie(response.data);
         }, (error) => {
+            toast.error("Could not load movies");
             console.log(error);
         }
         );
@@ -36,7 +40,7 @@ export const Movies = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center bg-gray-200 p-4 rounded-lg flex-col my-2">
+            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2">
                 <table>
                     <thead>
                         <tr>

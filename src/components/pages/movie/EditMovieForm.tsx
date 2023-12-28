@@ -6,10 +6,8 @@ import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { EditMovieProps } from "../../types/types";
 import { editMovieSchema, TeditMovieSchema } from "../../types/schemas"
-
-
-
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -47,8 +45,11 @@ export const EditMovieForm: FC<EditMovieProps> = ({ id, title, cost, fetchMovies
             console.log(response);
             setIsOpen(false);
             fetchMovies();
+            toast.success("Movie updated");
         }, (error) => {
+            toast.error(error.response.data);
             console.log(error);
+
         }
         );
     }

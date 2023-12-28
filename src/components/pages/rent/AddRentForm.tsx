@@ -6,19 +6,18 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { addRentSchema, TaddRentSchema } from "../../types/schemas"
 import { RentRequest } from "../../types/types";
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [clients, setClients] = useState<Client[]>([]);
     const [movies, setMovie] = useState<Movie[]>([]);
-    const [responseError, setResponseError] = useState<string>("")
 
 
     useEffect(() => {
         if (!isOpen) {
-            setResponseError("");
             reset();
         }
         if (isOpen) {
@@ -32,6 +31,7 @@ export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => 
         instance.get("/movies").then((response) => {
             setMovie(response.data);
         }, (error) => {
+            toast.error("Could not load movies");
             console.log(error);
         }
         );
@@ -41,6 +41,7 @@ export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => 
         instance.get("/clients").then((response) => {
             setClients(response.data.filter((client: Client) => client.active));
         }, (error) => {
+            toast.error("Could not load clients");
             console.log(error);
         }
         );
@@ -66,7 +67,6 @@ export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => 
 
     const onSubmit = (data: RentRequest) => {
         console.log(data)
-        setResponseError("");
         instance.post("/rents", {
             clientID: data.clientId,
             movieID: data.movieId,
@@ -77,8 +77,9 @@ export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => 
             fetchRents();
             reset();
             setIsOpen(false);
+            toast.success("Rent added");
         }, (error) => {
-            setResponseError(error.response.data);
+            toast.error(error.response.data);
         });
 
     }
@@ -114,7 +115,6 @@ export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => 
                     <input {...register("endDate"
                     )} type="date" />
                     {errors.endDate && <p className="text-red-600 text-xs">{errors.endDate.message}</p>}
-                    {responseError && <p className="text-red-600 text-xs">{responseError}</p>}
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
                 </form>
             </EditModal>

@@ -5,14 +5,14 @@ import instance from "../../api/fetcher"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientRequest } from "../../types/types";
 import { addClientSchema, TaddClientSchema } from "../../types/schemas"
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 export const AddClientForm: FC<{ fetchClients: () => void }> = ({ fetchClients }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const [responseError, setResponseError] = useState<string>("")
     const {
         register,
         handleSubmit,
@@ -42,11 +42,14 @@ export const AddClientForm: FC<{ fetchClients: () => void }> = ({ fetchClients }
             console.log(response);
             setIsOpen(false);
             fetchClients();
+            toast.success("Client added");
+            reset();
         }, (error) => {
-            setResponseError(error.response.data);
+            toast.error(error.response.data);
+
         }
         );
-        reset();
+
 
 
     }
@@ -77,9 +80,6 @@ export const AddClientForm: FC<{ fetchClients: () => void }> = ({ fetchClients }
                         <input {...register("active")} className="" id="active" type="checkbox" />
                         <label htmlFor="active">Active</label>
                     </div>
-                    {responseError && (
-                        <p className="text-red-600">{responseError}</p>
-                    )}
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
 
                 </form>

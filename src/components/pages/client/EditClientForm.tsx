@@ -3,18 +3,15 @@ import { useForm } from 'react-hook-form';
 import { Client, EditClientProps } from "../../types/types";
 import { editClientSchema, TeditClientSchema } from "../../types/schemas"
 import instance from '../../api/fetcher';
-import { useNavigate } from 'react-router-dom';
 import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 export const EditClientForm: FC<EditClientProps> = ({ id, firstName, lastName, username, active, fetchClients }) => {
     let [isOpen, setIsOpen] = useState<boolean>(false)
-    const [responseError, setResponseError] = useState<string>("")
-
-    let navigation = useNavigate();
     const {
         register,
         handleSubmit,
@@ -51,9 +48,9 @@ export const EditClientForm: FC<EditClientProps> = ({ id, firstName, lastName, u
             console.log(response);
             setIsOpen(false);
             fetchClients();
-            navigation("/clients");
+            toast.success("Client updated");
         }, (error) => {
-            setResponseError(error.response.data);
+            toast.error(error.response.data);
         }
         );
 
@@ -86,9 +83,6 @@ export const EditClientForm: FC<EditClientProps> = ({ id, firstName, lastName, u
                         <input {...register("active")} className=" place-self-start" type="checkbox" defaultChecked={active} />
                         <label>Active</label>
                     </div>
-                    {responseError && (
-                        <p className="text-red-600">{responseError}</p>
-                    )}
                     <button disabled={isSubmitting} className=" col-span-2 bg-blue-500 text-white rounded p-2" type="submit">Submit</button>
                 </form>
 
