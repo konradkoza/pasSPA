@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientRequest } from "../../types/types";
 import { addClientSchema, TaddClientSchema } from "../../types/schemas"
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 
 

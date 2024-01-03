@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { EditMovieProps } from "../../types/types";
 import { editMovieSchema, TeditMovieSchema } from "../../types/schemas"
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 
 

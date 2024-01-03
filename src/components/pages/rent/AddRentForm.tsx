@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { addRentSchema, TaddRentSchema } from "../../types/schemas"
 import { RentRequest } from "../../types/types";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 
 export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => {

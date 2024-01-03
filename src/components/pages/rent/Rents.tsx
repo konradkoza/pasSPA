@@ -4,7 +4,6 @@ import { Rent } from "../../types/types";
 import { EndRentForm } from "./EndRentForm";
 import { AddRentForm } from "./AddRentForm";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 
 export const Rents = () => {

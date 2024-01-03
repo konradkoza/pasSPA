@@ -4,8 +4,6 @@ import { EditMovieForm } from "./EditMovieForm";
 import { AddMovieForm } from "./AddMovieForm";
 import { Movie } from "../../types/types";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
 
 
 export const Movies = () => {

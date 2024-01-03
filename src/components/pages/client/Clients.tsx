@@ -5,7 +5,6 @@ import { AddClientForm } from "./AddClientForm";
 import { NavLink } from "react-router-dom";
 import { Client } from "../../types/types";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 export const Clients: FC = () => {
     const [clients, setClients] = useState<Client[]>([]);

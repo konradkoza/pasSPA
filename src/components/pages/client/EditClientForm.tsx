@@ -6,7 +6,6 @@ import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 
 

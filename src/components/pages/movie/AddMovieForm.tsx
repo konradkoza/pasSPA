@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { MovieRequest } from "../../types/types";
 import { movieSchema, TmovieSchema } from "../../types/schemas"
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 export const AddMovieForm: FC<{ fetchMovies: () => void }> = ({ fetchMovies }) => {
     const [isOpen, setIsOpen] = useState(false)

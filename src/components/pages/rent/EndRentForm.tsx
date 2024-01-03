@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { endRentSchema } from "../../types/schemas"
 import { endRentRequest, EndRentProps } from "../../types/types"
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 
 
