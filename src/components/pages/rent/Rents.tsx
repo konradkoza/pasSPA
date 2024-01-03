@@ -55,6 +55,7 @@ export const Rents = () => {
                         <tr>
                             <th>Client</th>
                             <th>Movie</th>
+                            <th>Rent Id</th>
                             <th>Rent Date</th>
                             <th>Return Date</th>
                         </tr>
@@ -64,6 +65,7 @@ export const Rents = () => {
                             <tr key={rent.id}>
                                 <td>{rent.user.username}</td>
                                 <td>{rent.movie.title}</td>
+                                <td>{rent.id}</td>
                                 <td>{rent.startDate.toString()}</td>
                                 {/* <td>{rent.endDate?.toString()}</td> */}
                                 <td>{
@@ -86,6 +88,7 @@ export const Rents = () => {
                         <tr>
                             <th>Client</th>
                             <th>Movie</th>
+                            <th>Rent Id</th>
                             <th>Rent Date</th>
                             <th>Return Date</th>
                         </tr>
@@ -95,6 +98,7 @@ export const Rents = () => {
                             <tr key={rent.id}>
                                 <td>{rent.user.username}</td>
                                 <td>{rent.movie.title}</td>
+                                <td>{rent.id}</td>
                                 <td>{rent.startDate.toString()}</td>
                                 <td>{rent.endDate?.toString()}</td>
 
