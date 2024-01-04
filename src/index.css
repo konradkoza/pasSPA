@@ -4,21 +4,29 @@
 
 @layer base {
     h1 {
-        @apply text-xl;
+        @apply text-xl mb-3;
     }
 
-    /* h2 {
-        @apply text-xl;
-    } */
+    thead {
+        @apply border-gray-400;
+        @apply border-b-2;
+        @apply bg-gray-50;
+    }
 
     th {
-        @apply text-base;
-        @apply p-2;
+        @apply text-sm;
+        @apply p-3;
+        @apply font-semibold;
+        @apply tracking-wide;
+        @apply text-left;
     }
 
     td {
         @apply text-sm;
-        @apply p-2;
+        @apply p-3;
+        @apply bg-gray-100;
+        @apply text-gray-800;
+        @apply whitespace-nowrap;
     }
 
     input, select {
@@ -33,12 +41,19 @@
         @apply mr-2;
     }
 
+    tbody {
+        @apply divide-y divide-gray-400;
+    }
+
+    span {
+        @apply font-semibold;
+    }
 }
 
 @layer components {
    
     .btn-edit {
-        @apply flex justify-center text-white bg-blue-600 w-24 rounded-sm p-1;
+        @apply flex justify-center text-white bg-blue-600 w-20 rounded-sm p-1;
     }
 
     .btn-edit:hover {
@@ -48,7 +63,7 @@
     }
 
     .btn-delete {
-        @apply flex justify-center text-white bg-red-600 w-24 rounded-sm p-1;
+        @apply flex justify-center text-white bg-red-600 w-20 rounded-sm p-1;
     }
 
     .btn-delete:hover {
@@ -57,5 +72,8 @@
         @apply transform scale-105;
     }
 
+    .main-container {
+        @apply flex justify-center flex-col bg-gray-200 p-4 rounded-lg my-2
+    }
     
 }

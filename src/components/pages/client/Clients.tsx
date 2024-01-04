@@ -43,6 +43,8 @@ export const Clients: FC = () => {
             setClients(response.data);
         }, (error) => {
             toast.error("Could not load clients");
+            toast.error(error);
+            toast.error(error.response.data.message);
             console.log(error);
         }
         );
@@ -50,41 +52,68 @@ export const Clients: FC = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2">
+            <div className="main-container">
                 <input
+                    className=" p-2 self-center rounded-lg"
                     type="text"
                     value={filterValue}
                     onChange={handleFilterChange}
                     placeholder="Filter by username"
                 />
-                <table>
-                    <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Id</th>
-                            <th>Username</th>
-                            <th>Active</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredClients.map((client) => (
-                            <tr key={client.id}>
-                                <td>{client.firstName}</td>
-                                <td>{client.lastName}</td>
-                                <td>{client.id}</td>
-                                <td>{client.username}</td>
-                                <td>{client.active ? "true" : "false"}</td>
-                                <td><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button> </td>
-                                <td><EditClientForm {...client} fetchClients={() => fetchClients()} /></td>
-                                <td><NavLink to={client.id} className={"btn-edit"}>Rents</NavLink></td>
+                <div className="overflow-auto justify-center hidden md:flex">
+                    <table className="w-fit">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Id</th>
+                                <th>Username</th>
+                                <th>Active</th>
+                                <th className="text-center" colSpan={3}>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredClients.map((client) => (
+                                <tr key={client.id}>
+                                    <td>{client.firstName}</td>
+                                    <td>{client.lastName}</td>
+                                    <td >{client.id}</td>
+                                    <td>{client.username}</td>
+                                    <td>{client.active ? "true" : "false"}</td>
+                                    <td><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button> </td>
+                                    <td><EditClientForm {...client} fetchClients={() => fetchClients()} /></td>
+                                    <td><NavLink to={client.id} className={"btn-edit"}>Rents</NavLink></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 md:hidden">
+                    {filteredClients.map((client) => (
+                        <ul className="bg-gray-50 p-5 rounded-lg shadow" key={client.id}>
+                            <li><span>First name:</span> {client.firstName}</li>
+                            <li><span>Last name:</span> {client.lastName}</li>
+                            <li><span>Id:</span> {client.id}</li>
+                            <li><span>Username:</span> {client.username}</li>
+                            <li><span>Active:</span> {client.active ? "true" : "false"}</li>
+                            <div className="flex justify-around mt-2">
+                                <li><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button></li>
+                                <li>
+                                    <EditClientForm {...client} fetchClients={() => fetchClients()} />
+                                </li>
+                                <li>
+                                    <NavLink to={client.id} className={"btn-edit"}>Rents</NavLink>
+                                </li>
+                            </div>
+                        </ul>
+                    ))}
+
+                </div>
+
 
             </div>
-            <div className="flex">
+            <div className="flex justify-center p-5">
                 <AddClientForm fetchClients={() => fetchClients()} />
             </div>
 

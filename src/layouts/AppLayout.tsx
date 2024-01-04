@@ -4,9 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const AppLayout = () => {
     return (
-        <>
+        <div>
 
-            <div className="flex justify-end gap-10 p-10 mx-0 my-auto" >
+            <div className="flex justify-end items-center gap-10 p-10 mx-0 my-auto" >
                 <h1 className="font-bold text-lg mr-auto">Movie Rental</h1>
                 <NavLink to="/clients">Clients</NavLink>
                 <NavLink to="/movies">Movies</NavLink>
@@ -24,10 +24,8 @@ export const AppLayout = () => {
                 pauseOnHover
                 theme="colored"
             />
-            <div className="flex justify-center flex-col items-center">
-                <Outlet />
-            </div>
+            <Outlet />
 
-        </>
+        </div>
     );
 };

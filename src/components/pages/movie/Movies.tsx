@@ -38,32 +38,52 @@ export const Movies = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Cost</th>
-                            <th>Id</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {movies.sort((a, b) => { return a.title < b.title ? -1 : 1 }).map((movie) => (
-                            <tr key={movie.id}>
-                                <td>{movie.title}</td>
-                                <td>{movie.cost}</td>
-                                <td>{movie.id}</td>
-                                <td><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></td>
-                                <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td>
+            <div className="main-container">
+                <div className="overflow-auto justify-center hidden md:flex">
+                    <table className="w-fit">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Cost</th>
+                                <th>Id</th>
+                                <th className="text-center" colSpan={2}>Actions</th>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {movies.sort((a, b) => { return a.title < b.title ? -1 : 1 }).map((movie) => (
+                                <tr key={movie.id}>
+                                    <td>{movie.title}</td>
+                                    <td>{movie.cost}</td>
+                                    <td>{movie.id}</td>
+                                    <td><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></td>
+                                    <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
-                    </tbody>
+                <div className="grid grid-cols-1 gap-4 md:hidden">
+                    {movies.map((movie) => (
+                        <ul className="bg-gray-50 p-5 rounded-lg shadow" key={movie.id}>
+                            <li><span>Title:</span> {movie.title}</li>
+                            <li><span>Cost:</span> {movie.cost}</li>
+                            <li><span>Id:</span> {movie.id}</li>
+                            <div className="flex justify-around mt-2">
+                                <li><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></li>
+                                <li>
+                                    <EditMovieForm {...movie} fetchMovies={() => fetchMovies()} />
+                                </li>
 
-                </table>
+                            </div>
+                        </ul>
+                    ))}
+
+                </div>
+
 
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center p-5">
                 <AddMovieForm fetchMovies={() => fetchMovies()} />
             </div>
         </>
