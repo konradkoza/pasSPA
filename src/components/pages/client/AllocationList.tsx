@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Client } from "../../types/types";
 import { Rent } from "../../types/types";
 import instance from '../../api/fetcher';
-import { EndRentForm } from '../rent/EndRentForm';
+import { CurrentRents } from '../rent/CurrentRents';
+import { PastRents } from '../rent/PastRents';
 
 const AllocationList = () => {
     const { id } = useParams<{ id: string }>();
@@ -54,67 +55,19 @@ const AllocationList = () => {
     return (
         <>
 
-            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col">
-                <h1>Current Rents {client && "of " + client.username}</h1>
+            <div className="main-container">
+                <h1 className="self-center">Current Rents {client && "of " + client.username}</h1>
                 {currentRents.length > 0 ? (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Client</th>
-                                <th>Movie</th>
-                                <th>Rent Id</th>
-                                <th>Rent Date</th>
-                                <th>Return Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRents.map((rent) => (
-                                <tr key={rent.id}>
-                                    <td>{rent.user.username}</td>
-                                    <td>{rent.movie.title}</td>
-                                    <td>{rent.id}</td>
-                                    <td>{rent.startDate.toString()}</td>
-                                    <td>{
-                                        rent.endDate ? rent.endDate.toString() :
-                                            <EndRentForm fetchRents={() => fetchRents()} id={rent.id} />
-                                    }</td>
-
-                                </tr>
-                            ))}
-                        </tbody>
-
-
-                    </table>
+                    <CurrentRents fetchRents={() => fetchRents()} currentRents={currentRents} />
                 ) : (
                     <p>No current rents found.</p>
                 )}
-                <h1>Past Rents  {client && "of " + client.username}</h1>
+            </div>
+            <div className="main-container">
+                <h1 className="self-center" >Past Rents  {client && "of " + client.username}</h1>
                 {pastRents.length > 0 ? (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Client</th>
-                                <th>Movie</th>
-                                <th>Rent Id</th>
-                                <th>Rent Date</th>
-                                <th>Return Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pastRents.map((rent) => (
-                                <tr key={rent.id}>
-                                    <td>{rent.user.username}</td>
-                                    <td>{rent.movie.title}</td>
-                                    <td>{rent.id}</td>
-                                    <td>{rent.startDate.toString()}</td>
-                                    <td>{rent.endDate?.toString()}</td>
+                    <PastRents pastRents={pastRents} />
 
-                                </tr>
-                            ))}
-
-                        </tbody>
-
-                    </table>
                 ) : (
                     <p>No past rents found.</p>
                 )}

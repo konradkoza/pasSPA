@@ -75,5 +75,22 @@
     .main-container {
         @apply flex justify-center flex-col bg-gray-200 p-4 rounded-lg my-2
     }
+
+    .active-navlink {
+        @apply text-gray-700;
+        @apply font-bold;
+    }
     
+    .table-container{
+        @apply overflow-auto justify-center hidden md:flex;
+
+    }
+
+    .table-container-mobile{
+        @apply grid grid-cols-1 gap-4 md:hidden;
+    }
+
+    .mobile-element{
+        @apply bg-gray-50 p-5 rounded-lg shadow;
+    }
 }

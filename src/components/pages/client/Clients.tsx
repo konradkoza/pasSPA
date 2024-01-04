@@ -60,7 +60,7 @@ export const Clients: FC = () => {
                     onChange={handleFilterChange}
                     placeholder="Filter by username"
                 />
-                <div className="overflow-auto justify-center hidden md:flex">
+                <div className="table-container">
                     <table className="w-fit">
                         <thead>
                             <tr>
@@ -89,9 +89,9 @@ export const Clients: FC = () => {
                     </table>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 md:hidden">
+                <div className="table-container-mobile">
                     {filteredClients.map((client) => (
-                        <ul className="bg-gray-50 p-5 rounded-lg shadow" key={client.id}>
+                        <ul className="mobile-element" key={client.id}>
                             <li><span>First name:</span> {client.firstName}</li>
                             <li><span>Last name:</span> {client.lastName}</li>
                             <li><span>Id:</span> {client.id}</li>

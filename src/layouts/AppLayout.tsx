@@ -8,9 +8,9 @@ export const AppLayout = () => {
 
             <div className="flex justify-end items-center gap-10 p-10 mx-0 my-auto" >
                 <h1 className="font-bold text-lg mr-auto">Movie Rental</h1>
-                <NavLink to="/clients">Clients</NavLink>
-                <NavLink to="/movies">Movies</NavLink>
-                <NavLink to="/rents">Rents</NavLink>
+                <NavLink className={({ isActive }) => isActive ? "active-navlink" : undefined} to="/clients" end>Clients</NavLink>
+                <NavLink className={({ isActive }) => isActive ? "active-navlink" : undefined} to="/movies">Movies</NavLink>
+                <NavLink className={({ isActive }) => isActive ? "active-navlink" : undefined} to="/rents">Rents</NavLink>
             </div>
             <ToastContainer
                 position="top-center"

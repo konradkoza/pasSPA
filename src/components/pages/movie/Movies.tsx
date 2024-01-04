@@ -39,7 +39,7 @@ export const Movies = () => {
     return (
         <>
             <div className="main-container">
-                <div className="overflow-auto justify-center hidden md:flex">
+                <div className="table-container">
                     <table className="w-fit">
                         <thead>
                             <tr>
@@ -63,9 +63,9 @@ export const Movies = () => {
                     </table>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 md:hidden">
+                <div className="table-container-mobile">
                     {movies.map((movie) => (
-                        <ul className="bg-gray-50 p-5 rounded-lg shadow" key={movie.id}>
+                        <ul className="mobile-element" key={movie.id}>
                             <li><span>Title:</span> {movie.title}</li>
                             <li><span>Cost:</span> {movie.cost}</li>
                             <li><span>Id:</span> {movie.id}</li>
