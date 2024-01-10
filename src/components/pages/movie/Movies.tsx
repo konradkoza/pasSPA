@@ -40,7 +40,7 @@ export const Movies = () => {
         <>
             <div className="main-container">
                 <div className="table-container">
-                    <table className="w-fit">
+                    <table className="w-full">
                         <thead>
                             <tr>
                                 <th>Title</th>

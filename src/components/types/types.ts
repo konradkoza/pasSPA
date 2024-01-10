@@ -7,6 +7,18 @@ export interface Client {
     active: boolean;
 }
 
+export interface Administrator {
+    id: string;
+    username: string;
+    active: boolean;
+}
+
+export interface Moderator {
+    id: string;
+    username: string;
+    active: boolean;
+}
+
 export interface EditClientProps {
     id: string;
     firstName: string;
@@ -16,12 +28,38 @@ export interface EditClientProps {
     fetchClients: () => void;
 }
 
+export interface AdminstratorsModeratorsProps {
+    users: Administrator[] | Moderator[];
+    fetchUsers: () => void;
+    setActive: (id: string, value: boolean) => void;
+    role: "administrators" | "moderators"
+}
+
+export interface EditAdministratorModeratorProps {
+    id: string;
+    username: string;
+    active: boolean;
+    fetchUsers: () => void;
+    role: "administrators" | "moderators";
+}
+
 export interface ClientRequest {
     firstName: string;
     lastName: string;
     username: string;
     active: boolean;
 }
+
+export interface ModeratorRequest {
+    username: string;
+    active: boolean;
+}
+
+export interface AdministratorRequest {
+    username: string;
+    active: boolean;
+}
+
 
 export interface MovieRequest {
     title: string;

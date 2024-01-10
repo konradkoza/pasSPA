@@ -1,5 +1,5 @@
 import AllocationList from "./components/pages/client/AllocationList"
-import { Clients } from "./components/pages/client/Clients"
+import { Users } from "./components/pages/client/Users"
 import { Movies } from "./components/pages/movie/Movies"
 import { Rents } from "./components/pages/rent/Rents"
 import { AppLayout } from "./layouts/AppLayout"
@@ -10,7 +10,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AppLayout />}>
       <Route path="clients" >
-        <Route index element={<Clients />} />
+        <Route index element={<Users />} />
         <Route path=":id" element={<AllocationList />} />
       </Route>
       <Route path="movies" element={<Movies />} />

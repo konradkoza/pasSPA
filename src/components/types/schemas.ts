@@ -14,6 +14,15 @@ export const editClientSchema = z.object({
 export type TeditClientSchema = z.infer<typeof editClientSchema>
 
 
+export const editAdministratorModeratorSchema = z.object({
+    id: z.string(),
+    username: z.string().min(2).max(20),
+    active: z.boolean()
+
+})
+
+export type TeditAdministratorModeratorSchema = z.infer<typeof editAdministratorModeratorSchema>
+
 export const addClientSchema = z.object({
 
     firstName: z.string().min(2).max(20),
@@ -25,6 +34,14 @@ export const addClientSchema = z.object({
 
 export type TaddClientSchema = z.infer<typeof addClientSchema>
 
+export const addAdministratorModeratorSchema = z.object({
+
+    username: z.string().min(2).max(20),
+    active: z.boolean()
+
+})
+
+export type TaddAdministratorModeratorSchema = z.infer<typeof addAdministratorModeratorSchema>
 
 export const movieSchema = z.object({
 

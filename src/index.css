@@ -82,7 +82,7 @@
     }
     
     .table-container{
-        @apply overflow-auto justify-center hidden md:flex;
+        @apply overflow-auto hidden md:flex;
 
     }
 

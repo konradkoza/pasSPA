@@ -13,7 +13,7 @@ export const CurrentRents: FC<CurrentRentsProps> = ({ currentRents, fetchRents }
         <>
             <div className="table-container">
 
-                <table className="w-fit">
+                <table className="w-full">
                     <thead>
                         <tr>
                             <th>Client</th>

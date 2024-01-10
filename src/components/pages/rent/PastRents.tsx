@@ -7,7 +7,7 @@ export const PastRents: FC<{ pastRents: Rent[] }> = ({ pastRents }) => {
     return (
         <>
             <div className="table-container">
-                <table className="w-fit">
+                <table className="w-full">
                     <thead>
                         <tr>
                             <th>Client</th>
