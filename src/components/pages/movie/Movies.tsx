@@ -4,6 +4,7 @@ import { EditMovieForm } from "./EditMovieForm";
 import { AddMovieForm } from "./AddMovieForm";
 import { Movie } from "../../types/types";
 import { toast } from "react-toastify";
+import { AcceptAction } from "../AcceptAction";
 
 
 export const Movies = () => {
@@ -55,7 +56,8 @@ export const Movies = () => {
                                     <td>{movie.title}</td>
                                     <td>{movie.cost}</td>
                                     <td>{movie.id}</td>
-                                    <td><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></td>
+                                    {/* <td><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></td> */}
+                                    <td><AcceptAction action={() => handleDelete(movie.id)}></AcceptAction></td>
                                     <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td>
                                 </tr>
                             ))}
@@ -70,7 +72,8 @@ export const Movies = () => {
                             <li><span>Cost:</span> {movie.cost}</li>
                             <li><span>Id:</span> {movie.id}</li>
                             <div className="flex justify-around mt-2">
-                                <li><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></li>
+                                {/* <li><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></li> */}
+                                <li><AcceptAction action={() => handleDelete(movie.id)}></AcceptAction></li>
                                 <li>
                                     <EditMovieForm {...movie} fetchMovies={() => fetchMovies()} />
                                 </li>
