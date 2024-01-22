@@ -28,7 +28,9 @@ export const addClientSchema = z.object({
     firstName: z.string().min(2).max(20),
     lastName: z.string().min(2).max(20),
     username: z.string().min(2).max(20),
-    active: z.boolean()
+    active: z.boolean(),
+    password: z.string().min(2).max(20)
+
 
 })
 
@@ -37,7 +39,8 @@ export type TaddClientSchema = z.infer<typeof addClientSchema>
 export const addAdministratorModeratorSchema = z.object({
 
     username: z.string().min(2).max(20),
-    active: z.boolean()
+    active: z.boolean(),
+    password: z.string().min(2).max(20)
 
 })
 
@@ -89,6 +92,36 @@ export const addRentSchema = z.object({
 });
 
 export type TaddRentSchema = z.infer<typeof addRentSchema>
+
+
+export const addRentForMeSchema = z.object({
+
+    movieId: z.string(),
+    startDate: z.string(),
+    endDate: z.string().nullable()
+}).refine(data => {
+    if (data.endDate == null || data.endDate == "") {
+        return true;
+    } else {
+        return new Date(data.startDate) <= new Date(data.endDate);
+    }
+
+}, {
+    message: "End date must be after start date",
+    path: ["endDate"]
+
+}).refine(data => {
+    if (data.endDate == "") {
+        return true;
+    } else {
+        return new Date(data.startDate) >= new Date(new Date().setHours(0, 0, 0, 0));
+    }
+}, {
+    message: "Start date can't be in the past",
+    path: ["startDate"]
+});
+
+export type TaddRentForMeSchema = z.infer<typeof addRentSchema>
 
 export const endRentSchema = z.object({
     id: z.string(),

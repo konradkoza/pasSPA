@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
+// import { useParams } from 'react-router-dom';
 import { Client } from "../../types/types";
 import { Rent } from "../../types/types";
-import instance from '../../api/fetcher';
+// import instance from '../../api/fetcher';
 import { CurrentRents } from '../rent/CurrentRents';
 import { PastRents } from '../rent/PastRents';
+import usePrivateAxios from '../../../hooks/usePrivateAxios';
+import useUserContext from '../../../hooks/useUserContext';
 
-const AllocationList = () => {
-    const { id } = useParams<{ id: string }>();
+const AllocationList: FC = () => {
+    // const { id } = useParams<{ id: string }>();
+    const { user } = useUserContext();
     const [pastRents, setPastRents] = useState<Rent[]>([]);
     const [currentRents, setCurrentRents] = useState<Rent[]>([]);
     const [client, setClient] = useState<Client | null>(null);
+    const instance = usePrivateAxios();
+
 
     useEffect(() => {
-        instance.get(`/users/${id}`)
+        instance.get(`/users/${user?.id}`)
             .then((response) => setClient(response.data))
             .catch((error) => console.log(error));
 
@@ -27,10 +32,10 @@ const AllocationList = () => {
             }
         )
     },
-        [id]);
+        []);
 
     const fetchCurrentRents = () => {
-        instance.get(`/rents/current?clientId=${id}`).then((response) => {
+        instance.get(`/rents/current?clientId=${user?.id}`).then((response) => {
             setCurrentRents(response.data);
         }, (error) => {
             console.log(error);
@@ -39,7 +44,7 @@ const AllocationList = () => {
     }
 
     const fetchPastRents = () => {
-        instance.get(`/rents/past?clientId=${id}`).then((response) => {
+        instance.get(`/rents/past?clientId=${user?.id}`).then((response) => {
             setPastRents(response.data);
         }, (error) => {
             console.log(error);

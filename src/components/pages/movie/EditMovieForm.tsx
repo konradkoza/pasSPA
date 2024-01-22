@@ -1,17 +1,19 @@
 import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Movie } from "../../types/types";
-import instance from '../../api/fetcher';
+// import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { EditMovieProps } from "../../types/types";
 import { editMovieSchema, TeditMovieSchema } from "../../types/schemas"
 import { toast } from "react-toastify";
-
+import usePrivateAxios from '../../../hooks/usePrivateAxios';
 
 
 export const EditMovieForm: FC<EditMovieProps> = ({ id, title, cost, fetchMovies }) => {
-    let [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+    const instance = usePrivateAxios();
+
     const {
         register,
         handleSubmit,

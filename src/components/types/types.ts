@@ -7,6 +7,23 @@ export interface Client {
     active: boolean;
 }
 
+export interface RegisterClient {
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+}
+
+export interface User {
+    id: string;
+    login: string;
+    token: string;
+    userType: "CLIENT" | "MODERATOR" | "ADMINISTRATOR";
+    active?: boolean;
+    lastName?: string;
+    firstName?: string;
+}
+
 export interface Administrator {
     id: string;
     username: string;
@@ -48,16 +65,19 @@ export interface ClientRequest {
     lastName: string;
     username: string;
     active: boolean;
+    password: string;
 }
 
 export interface ModeratorRequest {
     username: string;
     active: boolean;
+    password: string;
 }
 
 export interface AdministratorRequest {
     username: string;
     active: boolean;
+    password: string;
 }
 
 
@@ -87,6 +107,13 @@ export interface RentRequest {
     endDate: string | null;
 }
 
+export interface RentForMeRequest {
+
+    movieId: string;
+    startDate: string;
+    endDate: string | null;
+}
+
 export interface endRentRequest {
     id: string;
     endDate: string;
@@ -99,7 +126,7 @@ export type EndRentProps = {
 
 export interface Rent {
     id: string;
-    user: Client;
+    client: Client;
     movie: Movie;
     startDate: string;
     endDate: string | null;

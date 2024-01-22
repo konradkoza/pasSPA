@@ -1,7 +1,7 @@
 import { FC, useState } from "react"
 import { EditModal } from "../FormModal"
 import { useForm } from "react-hook-form"
-import instance from "../../api/fetcher"
+import usePrivateAxios from "../../../hooks/usePrivateAxios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AdministratorRequest, ModeratorRequest } from "../../types/types";
 import { addAdministratorModeratorSchema, TaddAdministratorModeratorSchema } from "../../types/schemas"
@@ -13,7 +13,7 @@ export interface Props {
 }
 
 export const AddAdministratorModeratorForm: FC<Props> = ({ fetchUsers, role }) => {
-
+    const instance = usePrivateAxios();
     const [isOpen, setIsOpen] = useState(false)
     const {
         register,
@@ -25,7 +25,9 @@ export const AddAdministratorModeratorForm: FC<Props> = ({ fetchUsers, role }) =
         {
             defaultValues: {
                 username: "",
-                active: false
+                active: false,
+                password: "",
+
             },
             resolver: zodResolver(addAdministratorModeratorSchema)
         }
@@ -35,7 +37,8 @@ export const AddAdministratorModeratorForm: FC<Props> = ({ fetchUsers, role }) =
     const onSubmit = (data: AdministratorRequest | ModeratorRequest) => {
         instance.post(`/${role}`, {
             username: data.username,
-            active: data.active
+            active: data.active,
+            password: data.password
         }).then((response) => {
             console.log(response);
             setIsOpen(false);
@@ -63,6 +66,11 @@ export const AddAdministratorModeratorForm: FC<Props> = ({ fetchUsers, role }) =
                     <input {...register("username")} id="username" required type="text" />
                     {errors.username && (
                         <p className="text-red-600">{`${errors.username.message}`}</p>
+                    )}
+                    <label htmlFor="password">Password</label>
+                    <input {...register("password")} id="password" required type="password" />
+                    {errors.password && (
+                        <p className="text-red-600">{`${errors.password.message}`}</p>
                     )}
                     <div>
                         <input {...register("active")} className="" id="active" type="checkbox" />

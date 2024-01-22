@@ -1,19 +1,19 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import instance from '../../api/fetcher';
+// import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { endRentSchema } from "../../types/schemas"
 import { endRentRequest, EndRentProps } from "../../types/types"
 import { toast } from "react-toastify";
-
+import usePrivateAxios from '../../../hooks/usePrivateAxios';
 
 
 
 
 export const EndRentForm: FC<EndRentProps> = ({ id, fetchRents }) => {
-    let [isOpen, setIsOpen] = useState<boolean>(false)
-
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const instance = usePrivateAxios();
 
     const {
         register,

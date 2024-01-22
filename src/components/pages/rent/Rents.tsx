@@ -1,4 +1,4 @@
-import instance from "../../api/fetcher";
+// import instance from "../../api/fetcher";
 import { useEffect, useState } from "react";
 import { Rent } from "../../types/types";
 // import { EndRentForm } from "./EndRentForm";
@@ -6,10 +6,11 @@ import { AddRentForm } from "./AddRentForm";
 import { toast } from "react-toastify";
 import { CurrentRents } from "./CurrentRents";
 import { PastRents } from "./PastRents";
+import usePrivateAxios from "../../../hooks/usePrivateAxios";
 export const Rents = () => {
     const [currentRents, setCurrentRents] = useState<Rent[]>([]);
     const [pastRents, setPastRents] = useState<Rent[]>([]);
-
+    const instance = usePrivateAxios();
 
 
     useEffect(() => {
@@ -23,6 +24,7 @@ export const Rents = () => {
     const fetchCurrentRents = () => {
         instance.get("/rents/current").then((response) => {
             setCurrentRents(response.data);
+            console.log(response.data[0].client);
         }, (error) => {
             toast.error("Could not load current rents");
             console.log(error);
@@ -33,6 +35,7 @@ export const Rents = () => {
     const fetchPastRents = () => {
         instance.get("/rents/past").then((response) => {
             setPastRents(response.data);
+            // console.log(response.data);
         }, (error) => {
             toast.error("Could not load past rents");
             console.log(error);

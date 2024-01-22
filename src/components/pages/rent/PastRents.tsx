@@ -20,7 +20,7 @@ export const PastRents: FC<{ pastRents: Rent[] }> = ({ pastRents }) => {
                     <tbody>
                         {pastRents.map((rent) => (
                             <tr key={rent.id}>
-                                <td>{rent.user.username}</td>
+                                <td>{rent.client.username}</td>
                                 <td>{rent.movie.title}</td>
                                 <td>{rent.id}</td>
                                 <td>{rent.startDate.toString()}</td>
@@ -34,7 +34,7 @@ export const PastRents: FC<{ pastRents: Rent[] }> = ({ pastRents }) => {
             <div className="table-container-mobile">
                 {pastRents.map((rent) => (
                     <ul className="mobile-element" key={rent.id}>
-                        <li><span>Title:</span> {rent.user.username}</li>
+                        <li><span>Title:</span> {rent.client.username}</li>
                         <li><span>Cost:</span> {rent.movie.title}</li>
                         <li><span>Id:</span> {rent.id}</li>
                         <li><span>Start date:</span> {rent.startDate}</li>

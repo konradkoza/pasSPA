@@ -1,43 +1,19 @@
-// import instance from "../../api/fetcher";
-import { useEffect, useState } from "react";
-import { EditMovieForm } from "./EditMovieForm";
-import { AddMovieForm } from "./AddMovieForm";
+import { FC, useState } from "react"
+// import usePrivateAxios from "../../../hooks/usePrivateAxios";
 import { Movie } from "../../types/types";
-import { toast } from "react-toastify";
-import { AcceptAction } from "../AcceptAction";
-import usePrivateAxios from "../../../hooks/usePrivateAxios";
 
-export const Movies = () => {
-    const [movies, setMovie] = useState<Movie[]>([]);
-    const instance = usePrivateAxios();
-    useEffect(() => {
-        fetchMovies();
-    }, []);
 
-    const handleDelete = (id: string) => {
-        instance.delete(`/movies/${id}`).then((response) => {
-            console.log(response);
-            toast.success("Movie deleted");
-            fetchMovies();
-        }, (error) => {
-            toast.error(error.response.data);
-            // alert(error.response.data);
-            console.log(error);
-        }
-        );
-    }
+const MoviesForClient: FC = () => {
+    // const instance = usePrivateAxios();
+    const [movies, setMovies] = useState<Movie[]>([]);
 
-    const fetchMovies = () => {
-        instance.get("/movies").then((response) => {
-            setMovie(response.data);
-        }, (error) => {
-            toast.error("Could not load movies");
-            console.log(error);
-        }
-        );
-    }
+
+
+
+
 
     return (
+
         <>
             <div className="main-container">
                 <div className="table-container">
@@ -57,8 +33,8 @@ export const Movies = () => {
                                     <td>{movie.cost}</td>
                                     <td>{movie.id}</td>
                                     {/* <td><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></td> */}
-                                    <td><AcceptAction action={() => handleDelete(movie.id)}></AcceptAction></td>
-                                    <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td>
+                                    {/* <td><AcceptAction action={() => handleDelete(movie.id)}></AcceptAction></td>
+                                    <td><EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /></td> */}
                                 </tr>
                             ))}
                         </tbody>
@@ -73,9 +49,8 @@ export const Movies = () => {
                             <li><span>Id:</span> {movie.id}</li>
                             <div className="flex justify-around mt-2">
                                 {/* <li><button onClick={() => handleDelete(movie.id)} className="btn-delete">Delete</button></li> */}
-                                <li><AcceptAction action={() => handleDelete(movie.id)}></AcceptAction></li>
                                 <li>
-                                    <EditMovieForm {...movie} fetchMovies={() => fetchMovies()} />
+                                    {/* <EditMovieForm {...movie} fetchMovies={() => fetchMovies()} /> */}
                                 </li>
 
                             </div>
@@ -83,12 +58,11 @@ export const Movies = () => {
                     ))}
 
                 </div>
-
-
-            </div>
-            <div className="flex justify-center p-5">
-                <AddMovieForm fetchMovies={() => fetchMovies()} />
             </div>
         </>
+
     )
 }
+
+
+export default MoviesForClient;

@@ -1,4 +1,4 @@
-import instance from "../../api/fetcher";
+// import instance from "../../api/fetcher";
 import { FC, useEffect, useState } from "react";
 // import { EditClientForm } from "./EditClientForm";
 import { AddClientForm } from "./AddClientForm";
@@ -8,11 +8,12 @@ import { toast } from "react-toastify";
 import { Clients } from "./Clients";
 import { AdministratorsModerators } from "./AdministratorsModerators";
 import { AddAdministratorModeratorForm } from "./AddAdministratorForm";
+import usePrivateAxios from "../../../hooks/usePrivateAxios";
 export const Users: FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
     const [administrators, setAdministrators] = useState<Client[]>([]);
     const [moderators, setModerators] = useState<Client[]>([]);
-
+    const instance = usePrivateAxios();
 
 
     useEffect(() => {
