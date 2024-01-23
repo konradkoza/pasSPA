@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Logout from '../components/auth/pages/Logout';
 // import { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+
+import { NavLink, Navigate } from 'react-router-dom';
 export const AppLayout = () => {
     const { user } = useUserContext();
 
@@ -26,6 +27,7 @@ export const AppLayout = () => {
                     user?.userType === "MODERATOR" ?
                         <ModeratorLayout /> :
                         <LoginPage />} */}
+            {user ? null : <Navigate to="/login" replace />}
 
 
             <div className="flex justify-end items-center gap-10 p-10 mx-0 my-auto" >

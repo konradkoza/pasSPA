@@ -1,6 +1,7 @@
 import { FC } from "react";
 import useUserContext from "../../../hooks/useUserContext";
 import { NavLink } from "react-router-dom";
+import { ChangePassword } from "./ChangePassword";
 
 const AuthenticatedModerator: FC = () => {
     const { user } = useUserContext();
@@ -23,6 +24,7 @@ const AuthenticatedModerator: FC = () => {
                         Manage Rents
                     </button>
                 </NavLink>
+                <ChangePassword />
             </div>
         </>
 

@@ -8,14 +8,13 @@ import { NavLink } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
-
 interface UserLogin {
     login: string;
     password: string;
 }
 
 const LoginPage: FC = () => {
-    const { setUser } = useUserContext();
+    const { setUser, setEtagPassword: setEtag } = useUserContext();
     // const location = useLocation();
     const navigate = useNavigate();
     // const from = `/${user?.userType.toLocaleLowerCase()}` || "/";
@@ -35,15 +34,18 @@ const LoginPage: FC = () => {
     )
 
     const onSubmit = async (data: UserLogin) => {
-        console.log(data)
+        // console.log(data)
         try {
             const response = await instance.post("/authentication/login", {
                 login: data.login,
                 password: data.password
             })
             setUser(response.data);
+            setEtag(response.headers.Etag);
+            console.log(response.headers['Etag']);
             navigate(`/${response.data.userType.toLocaleLowerCase()}`);
-            console.log(response.data);
+            // console.log(response.data);
+            console.log(response);
         } catch (error) {
 
             if (axios.isAxiosError(error)) {

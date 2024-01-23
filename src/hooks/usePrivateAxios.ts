@@ -5,11 +5,14 @@ import { User } from "../components/types/types";
 import { useNavigate } from "react-router-dom";
 
 const usePrivateAxios = () => {
-    const { user, setUser } = useUserContext();
+    const { user, setUser, etagPassword: etag } = useUserContext();
     const navigate = useNavigate();
     useEffect(() => {
         const requestInterceptor = privateInstance.interceptors.request.use((config) => {
             config.headers.Authorization = `Bearer ${user?.token}`;
+            if (config.method === 'put' && config.url === '/me/password') {
+                config.headers.If_Match = etag;
+            }
             return config;
 
         }, (error) => {
