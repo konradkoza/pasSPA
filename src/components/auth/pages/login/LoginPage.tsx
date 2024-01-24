@@ -14,7 +14,7 @@ interface UserLogin {
 }
 
 const LoginPage: FC = () => {
-    const { setUser, setEtagPassword: setEtag } = useUserContext();
+    const { setUser, setEtagPassword } = useUserContext();
     // const location = useLocation();
     const navigate = useNavigate();
     // const from = `/${user?.userType.toLocaleLowerCase()}` || "/";
@@ -36,14 +36,28 @@ const LoginPage: FC = () => {
     const onSubmit = async (data: UserLogin) => {
         // console.log(data)
         try {
-            const response = await instance.post("/authentication/login", {
-                login: data.login,
-                password: data.password
-            })
-            setUser(response.data);
-            setEtag(response.headers.Etag);
-            console.log(response.headers['Etag']);
-            navigate(`/${response.data.userType.toLocaleLowerCase()}`);
+            const response = await fetch("https://localhost:8080/api/v1/authentication/login", {
+                method: "POST",
+                // mode: "cors",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+
+                },
+                credentials: "include",
+
+
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+            console.log("Etag");
+            console.log(response.headers.get("Etag"));
+            console.log(response.headers.forEach((value, key) => console.log(key, value)));
+            setUser(responseData);
+            setEtagPassword(response.headers.get('Etag'));
+            // console.log(response.headers['Etag']);
+            navigate(`/${responseData.userType.toLocaleLowerCase()}`);
             // console.log(response.data);
             console.log(response);
         } catch (error) {

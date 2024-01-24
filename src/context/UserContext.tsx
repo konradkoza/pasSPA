@@ -6,9 +6,9 @@ export interface UserContextType {
     user: User | null;
     setUser: (user: User) => void;
     etagPassword: string | null;
-    setEtagPassword: (etag: string) => void;
+    setEtagPassword: (etag: string | null) => void;
     etagMofify: string | null;
-    setEtagMofify: (etag: string) => void;
+    setEtagMofify: (etag: string | null) => void;
 }
 
 const UserContext = createContext<UserContextType>({} as UserContextType);

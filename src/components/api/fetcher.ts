@@ -1,5 +1,4 @@
 import axios from "axios";
-import { setupCache } from 'axios-cache-interceptor';
 
 const URL = "https://localhost:8080/api/v1";
 const headers = {
@@ -10,8 +9,6 @@ const instance = axios.create({
     baseURL: URL,
     headers: headers,
 });
-export const cacheInstance = setupCache(instance);
-
 
 export const privateInstance = axios.create({
     baseURL: URL,
