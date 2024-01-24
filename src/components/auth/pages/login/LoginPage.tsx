@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import instance from "../../../api/fetcher";
+import instance from "../../../../api/fetcher";
 import axios, { AxiosError } from "axios";
 import useUserContext from "../../../../hooks/useUserContext";
 import { NavLink } from "react-router-dom";

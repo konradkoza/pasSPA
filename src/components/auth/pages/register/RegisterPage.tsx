@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
-import instance from '../../../api/fetcher';
+import instance from '../../../../api/fetcher';
 import { RegisterClient } from '../../../types/types';
 import axios, { AxiosError } from 'axios';
 import { IoMdEyeOff } from "react-icons/io";

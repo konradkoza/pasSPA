@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { privateInstance } from "../components/api/fetcher";
+import { privateInstance } from "../api/fetcher";
 import useUserContext from "./useUserContext";
 import { User } from "../components/types/types";
 import { useNavigate } from "react-router-dom";
