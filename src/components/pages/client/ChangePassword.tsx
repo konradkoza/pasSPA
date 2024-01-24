@@ -6,12 +6,15 @@ import { EditModal } from "../FormModal";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import useUserContext from "../../../hooks/useUserContext";
+import { useNavigate } from "react-router-dom";
+import { User } from "../../types/types";
 
 export const ChangePassword: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const instance = usePrivateAxios();
     const [visible, setVisible] = useState(false);
-    const { etagPassword: etag } = useUserContext();
+    const { etagPassword, setUser } = useUserContext();
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -34,13 +37,19 @@ export const ChangePassword: FC = () => {
 
     const onSubmit = (data: { password: string }) => {
         // console.log(p)
-        instance.put(`/me/password`, {
+        instance.patch(`/me/password`, {
             password: data.password
+        }, {
+            headers: {
+                "If-Match": etagPassword?.substring(1, etagPassword.length - 1),
+            }
         }
         ).then((response) => {
             console.log(response);
             setIsOpen(false);
-            toast.success("Movie updated");
+            toast.success("Password changed successfully");
+            setUser({} as User);
+            navigate("/login");
         }, (error) => {
             toast.error(error.response.data);
             console.log(error);

@@ -2,6 +2,7 @@ import { FC } from "react";
 import useUserContext from "../../../hooks/useUserContext";
 import { RentFormMeForm } from "../rent/RentForMeForm";
 import { ChangePassword } from "./ChangePassword";
+// import AllocationList from "./AllocationList";
 // import { NavLink } from 'react-router-dom';
 // import AllocationList from "./AllocationList";
 const AuthenticatedClient: FC = () => {
@@ -19,6 +20,7 @@ const AuthenticatedClient: FC = () => {
             <div className='flex justify-center gap-5 items-center p-10'>
                 <RentFormMeForm />
                 <ChangePassword />
+                {/* <AllocationList /> */}
             </div>
 
         </>

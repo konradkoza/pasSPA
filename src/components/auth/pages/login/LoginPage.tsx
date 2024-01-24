@@ -36,28 +36,14 @@ const LoginPage: FC = () => {
     const onSubmit = async (data: UserLogin) => {
         // console.log(data)
         try {
-            const response = await fetch("https://localhost:8080/api/v1/authentication/login", {
-                method: "POST",
-                // mode: "cors",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-
-                },
-                credentials: "include",
-
-
-            });
-            const responseData = await response.json();
-            console.log(responseData);
+            const response = await instance.post("/authentication/login", data);
+            console.log(response);
             console.log("Etag");
-            console.log(response.headers.get("Etag"));
-            console.log(response.headers.forEach((value, key) => console.log(key, value)));
-            setUser(responseData);
-            setEtagPassword(response.headers.get('Etag'));
+            console.log(response.headers.etag);
+            setUser(response.data);
+            setEtagPassword(response.headers.etag);
             // console.log(response.headers['Etag']);
-            navigate(`/${responseData.userType.toLocaleLowerCase()}`);
+            navigate(`/${response.data.userType.toLocaleLowerCase()}`);
             // console.log(response.data);
             console.log(response);
         } catch (error) {

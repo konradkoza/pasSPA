@@ -2,15 +2,15 @@ import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { EditAdministratorModeratorProps } from "../../types/types";
 import { editAdministratorModeratorSchema, TeditAdministratorModeratorSchema } from "../../types/schemas"
-import instance from '../../api/fetcher';
+// import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify";
-
-
+import usePrivateAxios from '../../../hooks/usePrivateAxios';
 
 export const EditAdministratorModeratorForm: FC<EditAdministratorModeratorProps> = ({ id, username, active, fetchUsers, role }) => {
     let [isOpen, setIsOpen] = useState<boolean>(false)
+    const instance = usePrivateAxios();
     const {
         register,
         handleSubmit,
@@ -35,19 +35,39 @@ export const EditAdministratorModeratorForm: FC<EditAdministratorModeratorProps>
     }, [isOpen]);
 
     const onSubmit = (data: TeditAdministratorModeratorSchema) => {
-        console.log("Test")
-        instance.put(`/${role}/${data.id}`, {
-            username: data.username,
-            active: data.active
-        }).then((response) => {
-            console.log(response);
-            setIsOpen(false);
-            fetchUsers();
-            toast.success("User updated");
+        instance.get(`/users/${data.id}`).then((response) => {
+            instance.put(`/${role}/${data.id}`, {
+                username: data.username,
+                active: data.active
+            }, {
+                headers: {
+                    "If-Match": response.headers.etag?.substring(1, response.headers.etag.length - 1),
+                }
+            }
+            ).then((response) => {
+                console.log(response);
+                setIsOpen(false);
+                fetchUsers();
+                toast.success("User updated");
+            }, (error) => {
+                toast.error(error.response.data);
+            }
+            );
         }, (error) => {
             toast.error(error.response.data);
-        }
-        );
+        });
+        // instance.put(`/${role}/${data.id}`, {
+        //     username: data.username,
+        //     active: data.active
+        // }).then((response) => {
+        //     console.log(response);
+        //     setIsOpen(false);
+        //     fetchUsers();
+        //     toast.success("User updated");
+        // }, (error) => {
+        //     toast.error(error.response.data);
+        // }
+        // );
 
     }
 
