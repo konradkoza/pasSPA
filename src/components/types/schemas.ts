@@ -25,8 +25,8 @@ export type TeditAdministratorModeratorSchema = z.infer<typeof editAdministrator
 
 export const addClientSchema = z.object({
 
-    firstName: z.string().min(2).max(20),
-    lastName: z.string().min(2).max(20),
+    firstName: z.string().min(2).max(20).regex(/^[A-Z]{1}[a-z]+$/),
+    lastName: z.string().min(2).max(20).regex(/^[A-Z]{1}[a-z]+$/),
     username: z.string().min(2).max(20),
     active: z.boolean(),
     password: z.string().min(2).max(20)
@@ -35,6 +35,18 @@ export const addClientSchema = z.object({
 })
 
 export type TaddClientSchema = z.infer<typeof addClientSchema>
+
+export const registerClientSchema = z.object({
+
+    firstName: z.string().min(2).max(20).regex(/^[A-Z]{1}[a-z]+$/),
+    lastName: z.string().min(2).max(20).regex(/^[A-Z]{1}[a-z]+$/),
+    username: z.string().min(2).max(20),
+    password: z.string().min(2).max(20)
+
+
+})
+
+export type TregisterClientSchema = z.infer<typeof registerClientSchema>
 
 export const addAdministratorModeratorSchema = z.object({
 

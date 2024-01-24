@@ -8,7 +8,7 @@ import { RentRequest } from "../../types/types";
 import { toast } from "react-toastify";
 import usePrivateAxios from '../../../hooks/usePrivateAxios';
 
-export const RentFormMeForm: FC = () => {
+export const RentFormMeForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [movies, setMovie] = useState<Movie[]>([]);
     const instance = usePrivateAxios();
@@ -58,7 +58,7 @@ export const RentFormMeForm: FC = () => {
             endDate: data.endDate
         }).then((response) => {
             console.log(response);
-            // fetchRents();
+            fetchRents();
             reset();
             setIsOpen(false);
             toast.success("Rent added");

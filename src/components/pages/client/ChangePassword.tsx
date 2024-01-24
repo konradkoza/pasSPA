@@ -64,9 +64,9 @@ export const ChangePassword: FC = () => {
     return (
         <>
             <EditModal isOpen={isOpen} setIsOpen={setIsOpen} buttonText='Change password'>
-                <h4 className=" text-center">Change password</h4>
-                <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-                    <div>
+                <h4 className="text-lg text-center">Change password</h4>
+                <form className="flex flex-col items-center p-5" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="flex flex-col">
                         <label>New password</label>
                         <input {...register("password")} className="border-2 border-gray-500 rounded-md p-2" type={visible ? "text" : "password"} placeholder="Password" />
                         <span className='flex justify-around items-center' onClick={handleVisible}>{visible ? <IoMdEyeOff size={25} className='absolute mb-16 ml-64' /> : <IoEye size={25} className='absolute mb-16 ml-64' />}</span>
@@ -75,6 +75,7 @@ export const ChangePassword: FC = () => {
                     {/* <label>New password</label>
                     <input {...register("password")} type="text" /> */}
                     <button type="submit" disabled={isSubmitting} className="col-span-2 bg-blue-500 text-white rounded p-2">Submit</button>
+
                 </form>
             </EditModal>
 

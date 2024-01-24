@@ -4,7 +4,7 @@ import { RentFormMeForm } from "../rent/RentForMeForm";
 import { ChangePassword } from "./ChangePassword";
 // import AllocationList from "./AllocationList";
 // import { NavLink } from 'react-router-dom';
-// import AllocationList from "./AllocationList";
+import AllocationList from "./AllocationList";
 const AuthenticatedClient: FC = () => {
     const { user } = useUserContext();
 
@@ -16,13 +16,12 @@ const AuthenticatedClient: FC = () => {
                 <h2 className="text-2xl font-bold">Your login is {user?.login}</h2>
                 <h2 className="text-2xl font-bold">Your id is {user?.id}</h2>
             </div>
-            {/* <AllocationList /> */}
+
             <div className='flex justify-center gap-5 items-center p-10'>
-                <RentFormMeForm />
                 <ChangePassword />
                 {/* <AllocationList /> */}
             </div>
-
+            <AllocationList />
         </>
 
 
