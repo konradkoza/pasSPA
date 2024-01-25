@@ -12,6 +12,7 @@ const AuthenticatedAdmin: FC = () => {
             <div className="flex flex-col items-center">
                 <h2 className="text-2xl font-bold">User name: {user?.login}</h2>
                 <h2 className="text-2xl font-bold">Your id is {user?.id}</h2>
+                <h2 className="text-2xl font-bold">Your role is {user?.userType}</h2>
             </div>
             <div className='flex justify-center gap-5 items-center p-10'>
                 <NavLink to={`/administrator/users`}>
