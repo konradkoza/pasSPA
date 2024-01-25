@@ -8,6 +8,7 @@ import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import { registerClientSchema, TregisterClientSchema } from '../../../types/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const RegisterPage: FC = () => {
@@ -49,6 +50,7 @@ const RegisterPage: FC = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const axiosError = error as AxiosError;
+                toast.error(axiosError.response?.data as string);
                 console.log(axiosError.response?.data);
             } else {
                 console.log(error);
@@ -63,6 +65,18 @@ const RegisterPage: FC = () => {
 
     return (
         <>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <div className="flex flex-col justify-center items-center h-screen">
                 <h1 className="text-4xl font-bold">Movie Rental</h1>
                 <h2 className="text-2xl font-bold">Register</h2>
