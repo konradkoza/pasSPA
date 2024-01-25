@@ -1,6 +1,6 @@
 import LoginPage from "./components/auth/pages/login/LoginPage"
 import RegisterPage from "./components/auth/pages/register/RegisterPage"
-import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider, Navigate } from "react-router-dom"
 import NotFound from "./components/pages/notFound/NotFound"
 import RouteGuard from "./components/auth/pages/RouteGuard/RouteGuard"
 import { AppLayout } from "./layouts/AppLayout"
@@ -15,10 +15,11 @@ import { Rents } from "./components/pages/rent/Rents"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route >
+    <Route path="/"  >
+      <Route index element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/" element={<AppLayout />}>
+      <Route element={<AppLayout />}>
         <Route element={<RouteGuard clientType="CLIENT" />}>
           <Route path="/client" >
             <Route index element={<AuthenticatedClient />} />
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
           <Route path="/administrator" >
             <Route index element={<AuthenticatedAdmin />} />
             <Route path="/administrator/users" element={<Users />} />
+
           </Route>
         </Route>
         <Route element={<RouteGuard clientType="MODERATOR" />}>

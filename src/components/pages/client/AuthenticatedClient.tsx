@@ -3,7 +3,7 @@ import useUserContext from "../../../hooks/useUserContext";
 import { ChangePassword } from "./ChangePassword";
 // import AllocationList from "./AllocationList";
 // import { NavLink } from 'react-router-dom';
-import AllocationList from "./AllocationList";
+import AllocationList from "./ClientAllocationList";
 const AuthenticatedClient: FC = () => {
     const { user } = useUserContext();
 

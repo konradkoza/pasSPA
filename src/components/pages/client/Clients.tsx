@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { Client } from "../../types/types"
 import { EditClientForm } from "./EditClientForm";
-import { NavLink } from "react-router-dom";
 
 interface Props {
     clients: Client[];
@@ -40,7 +39,7 @@ export const Clients: FC<Props> = ({ clients, fetchClients, setActive }) => {
                                 <th>Id</th>
                                 <th>Username</th>
                                 <th>Active</th>
-                                <th className="text-center" colSpan={3}>Actions</th>
+                                <th className="text-center" colSpan={2}>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +52,6 @@ export const Clients: FC<Props> = ({ clients, fetchClients, setActive }) => {
                                     <td>{client.active ? "true" : "false"}</td>
                                     <td><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button> </td>
                                     <td><EditClientForm {...client} fetchClients={() => fetchClients()} /></td>
-                                    <td><NavLink to={client.id} className={"btn-edit"}>Rents</NavLink></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -72,9 +70,6 @@ export const Clients: FC<Props> = ({ clients, fetchClients, setActive }) => {
                                 <li><button onClick={() => setActive(client.id, client.active ? false : true)} className={client.active ? "btn-delete" : "btn-edit"}> {client.active ? "Deactivate" : "Activate"} </button></li>
                                 <li>
                                     <EditClientForm {...client} fetchClients={() => fetchClients()} />
-                                </li>
-                                <li>
-                                    <NavLink to={client.id} className={"btn-edit"}>Rents</NavLink>
                                 </li>
                             </div>
                         </ul>
