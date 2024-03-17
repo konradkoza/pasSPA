@@ -1,19 +1,19 @@
 import { FC, useState, useEffect } from 'react';
 import { Movie, Client } from "../../types/types";
-import instance from '../../api/fetcher';
+// import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { addRentSchema, TaddRentSchema } from "../../types/schemas"
 import { RentRequest } from "../../types/types";
 import { toast } from "react-toastify";
-
+import usePrivateAxios from '../../../hooks/usePrivateAxios';
 
 export const AddRentForm: FC<{ fetchRents: () => void; }> = ({ fetchRents }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [clients, setClients] = useState<Client[]>([]);
     const [movies, setMovie] = useState<Movie[]>([]);
-
+    const instance = usePrivateAxios();
 
     useEffect(() => {
         if (!isOpen) {

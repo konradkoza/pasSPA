@@ -2,15 +2,15 @@ import { FC, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Client, EditClientProps } from "../../types/types";
 import { editClientSchema, TeditClientSchema } from "../../types/schemas"
-import instance from '../../api/fetcher';
+// import instance from '../../api/fetcher';
 import { EditModal } from '../FormModal';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify";
-
-
+import usePrivateAxios from '../../../hooks/usePrivateAxios';
 
 export const EditClientForm: FC<EditClientProps> = ({ id, firstName, lastName, username, active, fetchClients }) => {
-    let [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const instance = usePrivateAxios();
     const {
         register,
         handleSubmit,
@@ -38,20 +38,32 @@ export const EditClientForm: FC<EditClientProps> = ({ id, firstName, lastName, u
 
     const onSubmit = (data: Client) => {
         console.log(data)
-        instance.put(`/clients/${data.id}`, {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            username: data.username,
-            active: data.active
-        }).then((response) => {
-            console.log(response);
-            setIsOpen(false);
-            fetchClients();
-            toast.success("Client updated");
+        instance.get(`/users/${data.id}`).then((response) => {
+            instance.put(`/clients/${data.id}`, {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                username: data.username,
+                active: data.active
+            }, {
+                headers: {
+                    "If-Match": response.headers.etag.substring(1, response.headers.etag.length - 1),
+                }
+            }
+            ).then((response) => {
+                console.log(response);
+                setIsOpen(false);
+                fetchClients();
+                toast.success("Client updated");
+            }, (error) => {
+                toast.error(error.response.data);
+            }
+            );
+
+
         }, (error) => {
             toast.error(error.response.data);
-        }
-        );
+        });
+
 
     }
 

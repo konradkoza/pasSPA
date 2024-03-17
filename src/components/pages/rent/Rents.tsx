@@ -1,15 +1,16 @@
-import instance from "../../api/fetcher";
+// import instance from "../../api/fetcher";
 import { useEffect, useState } from "react";
 import { Rent } from "../../types/types";
-import { EndRentForm } from "./EndRentForm";
+// import { EndRentForm } from "./EndRentForm";
 import { AddRentForm } from "./AddRentForm";
 import { toast } from "react-toastify";
-
-
+import { CurrentRents } from "./CurrentRents";
+import { PastRents } from "./PastRents";
+import usePrivateAxios from "../../../hooks/usePrivateAxios";
 export const Rents = () => {
     const [currentRents, setCurrentRents] = useState<Rent[]>([]);
     const [pastRents, setPastRents] = useState<Rent[]>([]);
-
+    const instance = usePrivateAxios();
 
 
     useEffect(() => {
@@ -23,6 +24,7 @@ export const Rents = () => {
     const fetchCurrentRents = () => {
         instance.get("/rents/current").then((response) => {
             setCurrentRents(response.data);
+            console.log(response.data[0].client);
         }, (error) => {
             toast.error("Could not load current rents");
             console.log(error);
@@ -33,6 +35,7 @@ export const Rents = () => {
     const fetchPastRents = () => {
         instance.get("/rents/past").then((response) => {
             setPastRents(response.data);
+            // console.log(response.data);
         }, (error) => {
             toast.error("Could not load past rents");
             console.log(error);
@@ -48,68 +51,20 @@ export const Rents = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2" >
-                <h1>Current Rents</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Client</th>
-                            <th>Movie</th>
-                            <th>Rent Id</th>
-                            <th>Rent Date</th>
-                            <th>Return Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentRents.map((rent) => (
-                            <tr key={rent.id}>
-                                <td>{rent.user.username}</td>
-                                <td>{rent.movie.title}</td>
-                                <td>{rent.id}</td>
-                                <td>{rent.startDate.toString()}</td>
-                                {/* <td>{rent.endDate?.toString()}</td> */}
-                                <td>{
-                                    rent.endDate ? rent.endDate.toString() :
-                                        <EndRentForm fetchRents={() => fetchRents()} id={rent.id} />
-                                }</td>
-
-                            </tr>
-                        ))}
-                    </tbody>
-
-
-                </table>
+            <div className="main-container" >
+                <h1 className="self-center">Current Rents</h1>
+                <CurrentRents fetchRents={() => fetchRents()} currentRents={currentRents} />
+            </div>
+            <div className="main-container">
+                <h1 className="self-center">Past Rents</h1>
+                <PastRents pastRents={pastRents} />
 
             </div>
-            <div className="flex justify-center items-center min-w-fit w-3/4 bg-gray-200 p-4 rounded-lg flex-col my-2">
-                <h1>Past Rents</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Client</th>
-                            <th>Movie</th>
-                            <th>Rent Id</th>
-                            <th>Rent Date</th>
-                            <th>Return Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {pastRents.map((rent) => (
-                            <tr key={rent.id}>
-                                <td>{rent.user.username}</td>
-                                <td>{rent.movie.title}</td>
-                                <td>{rent.id}</td>
-                                <td>{rent.startDate.toString()}</td>
-                                <td>{rent.endDate?.toString()}</td>
 
-                            </tr>
-                        ))}
 
-                    </tbody>
 
-                </table>
-            </div>
-            <div className="flex justify-center">
+
+            <div className="flex justify-center p-5">
                 <AddRentForm fetchRents={() => fetchRents()} />
             </div>
 
