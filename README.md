@@ -16,7 +16,7 @@ Default accounts:
 ## How to run
 - Clone repository
 ```
-git clone https://github.com/KacperKafara/pasSPA.git
+git clone https://github.com/konradkoza/pasSPA.git
 ```
 - Instal node dependencies
 ```
