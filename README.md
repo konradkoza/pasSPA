@@ -1,7 +1,7 @@
 # Movie Rental
 The "Movie Rental" fronend app, built with React/TS, allows users to browse and rent movies for specific durations. Key features include user registration, browsing movies and renting. Moderators can manage the movie and rent collections and administrators the users collection.
 
-Backend application built with Spring Boot: https://github.com/KacperKafara/pasREST
+Backend application built with Spring Boot: https://github.com/konradkoza/pasREST
 ---
 Default accounts:
 - Administrator
